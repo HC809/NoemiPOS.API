@@ -1,4 +1,4 @@
-﻿namespace NoemiPOS.Domain.Tenants;
+﻿namespace NoemiPOS.Domain.Shared;
 public record Address(
     string Country,
     string State,

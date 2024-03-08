@@ -6,26 +6,18 @@ public sealed class Tenant : BaseEntity
 {
     private Tenant(
         Guid id,
-        string businessName,
-        string description,
-        Email emial,
-        TaxRegistryNumber taxRegistryNumber,
-        PhoneNumber phoneNumber,
-        WebSiteUrl? webSiteUrl) : base(id)
+        Owner owner,
+        Address adress,
+        string? note) : base(id)
     {
-        BusinessName = businessName;
-        Description = description;
-        Email = emial;
-        TaxRegistryNumber = taxRegistryNumber;
-        PhoneNumber = phoneNumber;
-        WebSiteUrl = webSiteUrl;
+        Owner = owner;
+        Address = adress;
+        Note = note;
     }
 
-    public TaxRegistryNumber TaxRegistryNumber { get; private set; }
-    public Email Email { get; private set; }
-    public PhoneNumber PhoneNumber { get; private set; }
-    public WebSiteUrl? WebSiteUrl { get; private set; }
+    private Tenant() { }
 
-    public string BusinessName { get; private set; }
-    public string Description { get; private set; }
+    public Owner Owner { get; private set; }
+    public Address Address { get; private set; }
+    public string? Note { get; private set; }
 }
