@@ -13,8 +13,8 @@ public sealed class Business : BaseEntity
         PhoneNumber phone,
         PhoneNumber? secondaryPhone,
         Address address,
-        string type,
-        string description,
+        BusinessType type,
+        Description description,
         ManagementNote managementNote) : base(id)
     {
         TenantId = tenantId;
@@ -36,7 +36,7 @@ public sealed class Business : BaseEntity
     public PhoneNumber Phone { get; private set; }
     public PhoneNumber? SecondaryPhone { get; private set; }
     public Address Address { get; private set; }
-    public string Type { get; private set; }
-    public string Description { get; private set; }
+    public BusinessType Type { get; private set; }
+    public Description Description { get; private set; }
     public ManagementNote? ManagementNote { get; private set; }
 }
