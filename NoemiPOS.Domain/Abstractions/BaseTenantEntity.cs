@@ -2,10 +2,10 @@
 
 public abstract class BaseTenantEntity : BaseEntity
 {
-    protected BaseTenantEntity(Guid id, Guid tenantId) : base(id)
+    protected BaseTenantEntity(Guid id, Guid businessId) : base(id)
     {
-        TenantId = tenantId;
+        BusinessId = businessId;
     }
 
-    public Guid TenantId { get; init; }
+    public Guid BusinessId { get; init; }
 }

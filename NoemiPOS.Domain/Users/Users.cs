@@ -3,7 +3,7 @@
 namespace NoemiPOS.Domain.Users;
 public sealed class Users : BaseTenantEntity
 {
-    private Users(Guid id, Guid tenantId) : base(id, tenantId)
+    private Users(Guid id, Guid businessId) : base(id, businessId)
     {
 
     }
