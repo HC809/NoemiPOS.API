@@ -5,6 +5,7 @@ public sealed record Owner(
     string FullName,
     Email Email,
     Dni Dni,
+    Rtn? Rtn,
     PhoneNumber Phone,
     PhoneNumber SecondaryPhone
     );

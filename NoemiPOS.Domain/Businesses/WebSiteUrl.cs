@@ -1,4 +1,4 @@
-﻿namespace NoemiPOS.Domain.Tenants;
+﻿namespace NoemiPOS.Domain.Businesses;
 
 public record WebSiteUrl
 {
