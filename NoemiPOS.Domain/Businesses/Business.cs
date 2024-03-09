@@ -15,7 +15,7 @@ public sealed class Business : BaseEntity
         Address address,
         string type,
         string description,
-        string note) : base(id)
+        ManagementNote managementNote) : base(id)
     {
         TenantId = tenantId;
         Name = name;
@@ -26,7 +26,7 @@ public sealed class Business : BaseEntity
         Address = address;
         Type = type;
         Description = description;
-        Note = note;
+        ManagementNote = managementNote;
     }
 
     public Guid TenantId { get; private set; }
@@ -38,5 +38,5 @@ public sealed class Business : BaseEntity
     public Address Address { get; private set; }
     public string Type { get; private set; }
     public string Description { get; private set; }
-    public string? Note { get; private set; }
+    public ManagementNote? ManagementNote { get; private set; }
 }
