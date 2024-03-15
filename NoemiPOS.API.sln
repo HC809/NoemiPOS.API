@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoemiPOS.Domain", "NoemiPOS.Domain\NoemiPOS.Domain.csproj", "{4E812EE5-4E1B-4691-B120-A1F9951BA3AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoemiPOS.Domain", "NoemiPOS.Domain\NoemiPOS.Domain.csproj", "{4E812EE5-4E1B-4691-B120-A1F9951BA3AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoemiPOS.Application", "NoemiPOS.Application\NoemiPOS.Application.csproj", "{8EC68232-0606-41D4-9D4D-2316BAF64A61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4E812EE5-4E1B-4691-B120-A1F9951BA3AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E812EE5-4E1B-4691-B120-A1F9951BA3AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E812EE5-4E1B-4691-B120-A1F9951BA3AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC68232-0606-41D4-9D4D-2316BAF64A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC68232-0606-41D4-9D4D-2316BAF64A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC68232-0606-41D4-9D4D-2316BAF64A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC68232-0606-41D4-9D4D-2316BAF64A61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
