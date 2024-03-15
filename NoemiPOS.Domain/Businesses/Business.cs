@@ -8,10 +8,10 @@ public sealed class Business : BaseEntity
         Guid id,
         Guid tenantId,
         Name name,
-        Rtn rtn,
+        BusinessRtn rtn,
         Email email,
         PhoneNumber phone,
-        PhoneNumber? secondaryPhone,
+        SecondaryPhoneNumber? secondaryPhone,
         Address address,
         BusinessType type,
         Description description,
@@ -31,10 +31,10 @@ public sealed class Business : BaseEntity
 
     public Guid TenantId { get; private set; }
     public Name Name { get; private set; }
-    public Rtn Rtn { get; private set; }
+    public BusinessRtn Rtn { get; private set; }
     public Email Email { get; private set; }
     public PhoneNumber Phone { get; private set; }
-    public PhoneNumber? SecondaryPhone { get; private set; }
+    public SecondaryPhoneNumber? SecondaryPhone { get; private set; }
     public Address Address { get; private set; }
     public BusinessType Type { get; private set; }
     public Description Description { get; private set; }

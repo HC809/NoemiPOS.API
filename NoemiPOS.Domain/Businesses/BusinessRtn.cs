@@ -1,10 +1,10 @@
-﻿namespace NoemiPOS.Domain.Shared;
+﻿namespace NoemiPOS.Domain.Businesses;
 
-public record Rtn
+public record BusinessRtn
 {
     public string Value { get; }
 
-    public Rtn(string value)
+    public BusinessRtn(string value)
     {
         if (!IsTaxRegistryNumberValid(value))
             throw new ArgumentException("El formato del RTN no es válido.", nameof(value));
