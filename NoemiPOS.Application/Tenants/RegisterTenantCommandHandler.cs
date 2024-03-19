@@ -4,12 +4,12 @@ using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Tenants;
 
 namespace NoemiPOS.Application.Tenants;
-internal sealed class RegisterTenantCommmandHandler : ICommandHandler<RegisterTenantCommand, Guid>
+internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTenantCommand, Guid>
 {
     private readonly ITenantRepository _tenantRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public RegisterTenantCommmandHandler(ITenantRepository tenantRepository, IUnitOfWork unitOfWork)
+    public RegisterTenantCommandHandler(ITenantRepository tenantRepository, IUnitOfWork unitOfWork)
     {
         _tenantRepository = tenantRepository;
         _unitOfWork = unitOfWork;

@@ -15,6 +15,7 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.OwnsOne(tenant => tenant.Address);
 
         builder.Property(tenant => tenant.Description)
+            .IsRequired()
             .HasMaxLength(2000)
             .HasConversion(description => description.Value, value => new Description(value));
 
