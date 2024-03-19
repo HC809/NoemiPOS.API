@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NoemiPOS.Application\NoemiPOS.Application.csproj" />
+    <ProjectReference Include="..\NoemiPOS.Infraestructure\NoemiPOS.Infraestructure.csproj" />
   </ItemGroup>
 
 </Project>
