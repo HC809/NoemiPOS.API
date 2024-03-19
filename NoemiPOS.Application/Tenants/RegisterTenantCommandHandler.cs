@@ -27,7 +27,7 @@ internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTen
 
         var addressInfo = new Address(request.Country, request.State, request.City, request.State, request.PostalCode);
 
-        var tenant = Tenant.Create(ownerInfo, addressInfo, new Description(request.Description), new ManagementNote(request.ManagementNote));
+        var tenant = Tenant.Create(new Description(request.Description), ownerInfo, addressInfo, new ManagementNote(request.ManagementNote));
 
         _tenantRepository.Add(tenant);
         await _unitOfWork.SaveChangesAsync();

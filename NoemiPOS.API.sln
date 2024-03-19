@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoemiPOS.Application", "Noe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoemiPOS.Infraestructure", "NoemiPOS.Infraestructure\NoemiPOS.Infraestructure.csproj", "{82D158CB-0D48-4CC9-8C38-09551F5FF159}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoemiPOS.Api", "NoemiPOS.Api\NoemiPOS.Api.csproj", "{72F02931-D8BB-46FC-89C8-BD269E338682}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{82D158CB-0D48-4CC9-8C38-09551F5FF159}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82D158CB-0D48-4CC9-8C38-09551F5FF159}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82D158CB-0D48-4CC9-8C38-09551F5FF159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72F02931-D8BB-46FC-89C8-BD269E338682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72F02931-D8BB-46FC-89C8-BD269E338682}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72F02931-D8BB-46FC-89C8-BD269E338682}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72F02931-D8BB-46FC-89C8-BD269E338682}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
