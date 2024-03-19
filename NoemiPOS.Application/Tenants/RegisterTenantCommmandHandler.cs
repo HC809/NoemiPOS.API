@@ -29,7 +29,7 @@ internal sealed class RegisterTenantCommmandHandler : ICommandHandler<RegisterTe
 
         var tenant = Tenant.Create(ownerInfo, addressInfo, new Description(request.Description), new ManagementNote(request.ManagementNote));
 
-        _tenantRepository.AddTenant(tenant);
+        _tenantRepository.Add(tenant);
         await _unitOfWork.SaveChangesAsync();
 
         return tenant.Id;
