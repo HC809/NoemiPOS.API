@@ -3,7 +3,7 @@ using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Tenants;
 
-namespace NoemiPOS.Application.Tenants;
+namespace NoemiPOS.Application.Tenants.RegisterTenant;
 internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTenantCommand, Guid>
 {
     private readonly ITenantRepository _tenantRepository;
@@ -18,10 +18,10 @@ internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTen
     public async Task<Result<Guid>> Handle(RegisterTenantCommand request, CancellationToken cancellationToken)
     {
         var ownerInfo = new Owner(
-            request.OwnerFullName, 
+            request.OwnerFullName,
             new Email(request.OwnerEmail),
             new Dni(request.OwnerDni),
-            new TenantRtn(request.OwnerRtn) ,
+            new TenantRtn(request.OwnerRtn),
             new PhoneNumber(request.OwnerPhone),
             new SecondaryPhoneNumber(request.OwnerSecondaryPhone));
 

@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NoemiPOS.Application.Tenants;
+using NoemiPOS.Application.Tenants.GetTenant;
+using NoemiPOS.Application.Tenants.RegisterTenant;
 
 namespace NoemiPOS.Api.Controllers.Tenants;
 

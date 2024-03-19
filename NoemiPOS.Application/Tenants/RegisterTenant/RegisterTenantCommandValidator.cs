@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace NoemiPOS.Application.Tenants;
+namespace NoemiPOS.Application.Tenants.RegisterTenant;
 internal class RegisterTenantCommandValidator : AbstractValidator<RegisterTenantCommand>
 {
     public RegisterTenantCommandValidator()

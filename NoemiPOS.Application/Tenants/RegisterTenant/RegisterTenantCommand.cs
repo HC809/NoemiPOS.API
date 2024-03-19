@@ -1,6 +1,6 @@
 ﻿using NoemiPOS.Application.Abstractions.Messaging;
 
-namespace NoemiPOS.Application.Tenants;
+namespace NoemiPOS.Application.Tenants.RegisterTenant;
 public record RegisterTenantCommand(
     string Description,
     string OwnerFullName,
