@@ -9,7 +9,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
     private readonly IPublisher _publisher;
 
-    public ApplicationDbContext(IPublisher publisher)
+    public ApplicationDbContext(DbContextOptions options, IPublisher publisher) : base(options)
     {
         _publisher = publisher;
     }
@@ -38,7 +38,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 
     private async Task PublishDomainEventsAsync()
     {
-        var domainEvents = ChangeTracker.Entries<BaseEntity>().Select(entry => entry.Entity).SelectMany(entity =>
+        var domainEvents = ChangeTracker.Entries<Entity>().Select(entry => entry.Entity).SelectMany(entity =>
         {
             var domainEvents = entity.GetDomainEvents();
             entity.ClearDomainEvents();

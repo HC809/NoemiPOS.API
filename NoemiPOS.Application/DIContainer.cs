@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using FluentValidation;
 
 namespace NoemiPOS.Application;
 public static class DIContainer
@@ -9,6 +10,8 @@ public static class DIContainer
         {
             config.RegisterServicesFromAssembly(typeof(DIContainer).Assembly);
         });
+
+        services.AddValidatorsFromAssembly(typeof(DIContainer).Assembly);
 
         return services;
     }

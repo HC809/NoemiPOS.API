@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NoemiPOS.Domain.Abstractions;
+using NoemiPOS.Domain.Tenants;
+using NoemiPOS.Infraestructure.Repositories;
 
 namespace NoemiPOS.Infraestructure;
 public static class DIContainer
@@ -14,6 +16,8 @@ public static class DIContainer
         {
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
+
+        services.AddScoped<ITenantRepository, TenantRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 

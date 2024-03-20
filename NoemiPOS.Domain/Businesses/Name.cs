@@ -1,2 +1,2 @@
 ﻿namespace NoemiPOS.Domain.Businesses;
-public sealed record Name(string Value);
+public record Name(string Value);

@@ -11,8 +11,35 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.ToTable("tenants");
         builder.HasKey(tenant => tenant.Id);
 
-        builder.OwnsOne(tenant => tenant.Owner);
         builder.OwnsOne(tenant => tenant.Address);
+
+        builder.Property(tenant => tenant.FullName)
+            .IsRequired()
+            .HasMaxLength(250)
+            .HasConversion(fullName => fullName.Value, value => new FullName(value));
+
+        builder.Property(tenant => tenant.Email)
+           .IsRequired()
+           .HasConversion(email => email.Value, value => new Email(value));
+
+        builder.Property(tenant => tenant.Dni)
+            .IsRequired()
+            .HasMaxLength(13)
+            .HasConversion(dni => dni.Value, value => new Dni(value));
+
+        builder.Property(tenant => tenant.Rtn)
+            .IsRequired()
+            .HasMaxLength(14)
+            .HasConversion(rtn => rtn.Value, value => new TenantRtn(value));
+
+        builder.Property(tenant => tenant.Phone)
+            .IsRequired()
+            .HasMaxLength(8)
+            .HasConversion(phone => phone.Value, value => new PhoneNumber(value));
+
+        builder.Property(tenant => tenant.SecondaryPhone)
+            .HasMaxLength(8)
+            .HasConversion(secondaryPhone => secondaryPhone.Value, value => new SecondaryPhoneNumber(value));
 
         builder.Property(tenant => tenant.Description)
             .IsRequired()

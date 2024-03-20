@@ -17,17 +17,16 @@ internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTen
 
     public async Task<Result<Guid>> Handle(RegisterTenantCommand request, CancellationToken cancellationToken)
     {
-        var ownerInfo = new Owner(
-            request.OwnerFullName,
+        var tenant = Tenant.Create(
+            new FullName(request.OwnerFullName),
             new Email(request.OwnerEmail),
             new Dni(request.OwnerDni),
             new TenantRtn(request.OwnerRtn),
             new PhoneNumber(request.OwnerPhone),
-            new SecondaryPhoneNumber(request.OwnerSecondaryPhone));
-
-        var addressInfo = new Address(request.Country, request.State, request.City, request.State, request.PostalCode);
-
-        var tenant = Tenant.Create(new Description(request.Description), ownerInfo, addressInfo, new ManagementNote(request.ManagementNote));
+            new SecondaryPhoneNumber(request.OwnerSecondaryPhone),
+            new Address(request.Country, request.State, request.City, request.State, request.PostalCode),
+            new Description(request.Description),
+            new ManagementNote(request.ManagementNote));
 
         _tenantRepository.Add(tenant);
         await _unitOfWork.SaveChangesAsync();

@@ -2,7 +2,7 @@
 using NoemiPOS.Domain.Shared;
 
 namespace NoemiPOS.Domain.Businesses;
-public sealed class Business : BaseEntity
+public sealed class Business : Entity
 {
     private Business(
         Guid id,
@@ -27,6 +27,10 @@ public sealed class Business : BaseEntity
         Type = type;
         Description = description;
         ManagementNote = managementNote;
+    }
+    private Business()
+    {
+            
     }
 
     public Guid TenantId { get; private set; }

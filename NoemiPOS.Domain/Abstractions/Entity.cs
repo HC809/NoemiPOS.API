@@ -1,11 +1,11 @@
 ﻿namespace NoemiPOS.Domain.Abstractions;
 
-public abstract class BaseEntity
+public abstract class Entity
 {
     private readonly List<IDomainEvent> _domainEvents = new();
 
-    protected BaseEntity(Guid id) => Id = id;
-    protected BaseEntity() { }
+    protected Entity(Guid id) => Id = id;
+    protected Entity() { }
 
     public Guid Id { get; init; }
 

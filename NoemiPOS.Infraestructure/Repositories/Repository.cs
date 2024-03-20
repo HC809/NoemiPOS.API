@@ -3,7 +3,7 @@ using NoemiPOS.Domain.Abstractions;
 
 namespace NoemiPOS.Infraestructure.Repositories;
 
-internal abstract class Repository<T> where T : BaseEntity
+internal abstract class Repository<T> where T : Entity
 {
     protected readonly ApplicationDbContext _dbContext;
 
