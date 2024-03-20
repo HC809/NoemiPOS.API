@@ -1,18 +1,16 @@
-﻿namespace NoemiPOS.Application.Tenants.GetTenant;
+﻿using NoemiPOS.Application.Shared;
+
+namespace NoemiPOS.Application.Tenants.GetTenant;
 public sealed class TenantResponse
 {
     public Guid Id { get; init; }
+    public string FullName { get; init; }
+    public string Email { get; init; }
+    public string Dni { get; init; }
+    public string Rtn { get; init; }
+    public string Phone { get; init; }
+    public string SecondaryPhone { get; init; }
+    public AddressResponse Address { get; set; }
     public string Description { get; init; }
-    public string OwnerFullName { get; init; }
-    public string OwnerEmail { get; init; }
-    public string OwnerDni { get; init; }
-    public string OwnerRtn { get; init; }
-    public string OwnerPhone { get; init; }
-    public string OwnerSecondaryPhone { get; init; }
-    public string Country { get; init; }
-    public string State { get; init; }
-    public string City { get; init; }
-    public string Street { get; init; }
-    public string PostalCode { get; init; }
     public string ManagementNote { get; init; }
 }

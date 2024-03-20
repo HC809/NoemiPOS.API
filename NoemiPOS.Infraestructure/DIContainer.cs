@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NoemiPOS.Application.Abstractions.Data;
 using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Tenants;
+using NoemiPOS.Infraestructure.Data;
 using NoemiPOS.Infraestructure.Repositories;
 
 namespace NoemiPOS.Infraestructure;
@@ -20,6 +22,8 @@ public static class DIContainer
         services.AddScoped<ITenantRepository, TenantRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+        services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
 
         return services;
     }
