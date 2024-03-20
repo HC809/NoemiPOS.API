@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NoemiPOS.Infraestructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDatabase : Migration
+    public partial class Create_Tenant_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,6 +34,24 @@ namespace NoemiPOS.Infraestructure.Migrations
                 {
                     table.PrimaryKey("pk_tenants", x => x.id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_tenants_dni",
+                table: "tenants",
+                column: "dni",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_tenants_email",
+                table: "tenants",
+                column: "email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_tenants_rtn",
+                table: "tenants",
+                column: "rtn",
+                unique: true);
         }
 
         /// <inheritdoc />

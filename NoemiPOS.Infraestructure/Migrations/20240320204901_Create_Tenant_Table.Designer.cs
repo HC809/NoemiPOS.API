@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NoemiPOS.Infraestructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320040449_Create-Database")]
-    partial class CreateDatabase
+    [Migration("20240320204901_Create_Tenant_Table")]
+    partial class Create_Tenant_Table
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,18 @@ namespace NoemiPOS.Infraestructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_tenants");
+
+                    b.HasIndex("Dni")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tenants_dni");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tenants_email");
+
+                    b.HasIndex("Rtn")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tenants_rtn");
 
                     b.ToTable("tenants", (string)null);
                 });

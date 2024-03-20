@@ -51,5 +51,9 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.Property(tenant => tenant.ManagementNote)
             .HasMaxLength(2000)
             .HasConversion(managementNote => managementNote.Value, value => new ManagementNote(value));
+
+        builder.HasIndex(user => user.Email).IsUnique();
+        builder.HasIndex(user => user.Dni).IsUnique();
+        builder.HasIndex(user => user.Rtn).IsUnique();
     }
 }

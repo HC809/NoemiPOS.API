@@ -78,6 +78,18 @@ namespace NoemiPOS.Infraestructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_tenants");
 
+                    b.HasIndex("Dni")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tenants_dni");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tenants_email");
+
+                    b.HasIndex("Rtn")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tenants_rtn");
+
                     b.ToTable("tenants", (string)null);
                 });
 
