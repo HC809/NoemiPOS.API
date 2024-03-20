@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NoemiPOS.Infraestructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240319230907_Create-Database")]
+    [Migration("20240320040449_Create-Database")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -74,7 +74,6 @@ namespace NoemiPOS.Infraestructure.Migrations
                         .HasColumnName("rtn");
 
                     b.Property<string>("SecondaryPhone")
-                        .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("character varying(8)")
                         .HasColumnName("secondary_phone");

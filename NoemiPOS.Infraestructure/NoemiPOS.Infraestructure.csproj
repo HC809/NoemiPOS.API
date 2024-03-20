@@ -17,4 +17,8 @@
     <ProjectReference Include="..\NoemiPOS.Domain\NoemiPOS.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

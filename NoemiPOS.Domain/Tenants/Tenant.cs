@@ -35,7 +35,7 @@ public sealed class Tenant : Entity
     public Dni Dni { get; private set; }
     public TenantRtn Rtn { get; private set; }
     public PhoneNumber Phone { get; private set; }
-    public SecondaryPhoneNumber SecondaryPhone { get; private set; }
+    public SecondaryPhoneNumber? SecondaryPhone { get; private set; }
     public Description Description { get; private set; }
     public Address Address { get; private set; }
     public ManagementNote ManagementNote { get; private set; }

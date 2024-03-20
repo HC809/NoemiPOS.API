@@ -21,7 +21,7 @@ namespace NoemiPOS.Infraestructure.Migrations
                     dni = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
                     rtn = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
                     phone = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
-                    secondary_phone = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
+                    secondary_phone = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: true),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     address_country = table.Column<string>(type: "text", nullable: false),
                     address_state = table.Column<string>(type: "text", nullable: false),

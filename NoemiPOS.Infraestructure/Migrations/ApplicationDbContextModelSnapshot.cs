@@ -71,7 +71,6 @@ namespace NoemiPOS.Infraestructure.Migrations
                         .HasColumnName("rtn");
 
                     b.Property<string>("SecondaryPhone")
-                        .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("character varying(8)")
                         .HasColumnName("secondary_phone");

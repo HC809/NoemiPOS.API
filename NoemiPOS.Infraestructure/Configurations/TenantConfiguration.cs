@@ -39,7 +39,9 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
 
         builder.Property(tenant => tenant.SecondaryPhone)
             .HasMaxLength(8)
-            .HasConversion(secondaryPhone => secondaryPhone.Value, value => new SecondaryPhoneNumber(value));
+            .HasConversion(
+            secondaryPhone => secondaryPhone != null ? secondaryPhone.Value : null,
+            value => value != null ? new SecondaryPhoneNumber(value) : null);
 
         builder.Property(tenant => tenant.Description)
             .IsRequired()
