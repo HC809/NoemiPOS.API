@@ -16,8 +16,17 @@ public class TenantsController : ControllerBase
         _sender = sender;
     }
 
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetTenant(Guid id, CancellationToken cancellationToken)
+    {
+        var query = new GetTenantQuery(id);
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess ? Ok(result.Value) : NotFound();
+    }
+
     [HttpGet]
-    public async Task<IActionResult> GetTenant(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetTenants(CancellationToken cancellationToken)
     {
         var query = new GetTenantsQuery();
         var result = await _sender.Send(query, cancellationToken);

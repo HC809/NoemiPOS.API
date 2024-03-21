@@ -1,6 +1,6 @@
 ﻿using NoemiPOS.Application.Shared;
 
-namespace NoemiPOS.Application.Tenants.GetTenant;
+namespace NoemiPOS.Application.Tenants;
 public sealed class TenantResponse
 {
     public Guid Id { get; init; }
