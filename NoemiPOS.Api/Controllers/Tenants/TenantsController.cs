@@ -19,7 +19,7 @@ public class TenantsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetTenant(CancellationToken cancellationToken)
     {
-        var query = new GetTenantQuery();
+        var query = new GetTenantsQuery();
         var result = await _sender.Send(query, cancellationToken);
 
         return result.IsSuccess ? Ok(result.Value) : NotFound();
