@@ -39,12 +39,12 @@ public class TenantsController : ControllerBase
     {
         var command = new RegisterTenantCommand(
                 request.Description,
-                request.OwnerFullName,
-                request.OwnerEmail,
-                request.OwnerDni,
-                request.OwnerRtn,
-                request.OwnerPhone,
-                request.OwnerSecondaryPhone,
+                request.FullName,
+                request.Email,
+                request.Dni,
+                request.Rtn,
+                request.Phone,
+                request.Phone,
                 request.Country,
                 request.State,
                 request.City,

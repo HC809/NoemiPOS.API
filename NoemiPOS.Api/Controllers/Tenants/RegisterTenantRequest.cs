@@ -2,12 +2,12 @@
 
 public sealed record RegisterTenantRequest(
     string Description,
-    string OwnerFullName,
-    string OwnerEmail,
-    string OwnerDni,
-    string OwnerRtn,
-    string OwnerPhone,
-    string OwnerSecondaryPhone,
+    string FullName,
+    string Email,
+    string Dni,
+    string Rtn,
+    string Phone,
+    string SecondaryPhone,
     string Country,
     string State,
     string City,

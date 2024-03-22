@@ -18,12 +18,12 @@ internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTen
     public async Task<Result<Guid>> Handle(RegisterTenantCommand request, CancellationToken cancellationToken)
     {
         var tenant = Tenant.Create(
-            new FullName(request.OwnerFullName),
-            new Email(request.OwnerEmail),
-            new Dni(request.OwnerDni),
-            new TenantRtn(request.OwnerRtn),
-            new PhoneNumber(request.OwnerPhone),
-            new SecondaryPhoneNumber(request.OwnerSecondaryPhone),
+            new FullName(request.FullName),
+            new Email(request.Email),
+            new Dni(request.Dni),
+            new TenantRtn(request.Rtn),
+            new PhoneNumber(request.Phone),
+            new SecondaryPhoneNumber(request.SecondaryPhone),
             new Address(request.Country, request.State, request.City, request.State, request.PostalCode),
             new Description(request.Description),
             new ManagementNote(request.ManagementNote));
