@@ -5,6 +5,7 @@ internal class RegisterTenantCommandValidator : AbstractValidator<RegisterTenant
 {
     public RegisterTenantCommandValidator()
     {
+        RuleFor(tenant => tenant.Email).EmailAddress();
         RuleFor(tenant => tenant.Description).NotEmpty();
         When(tenant => tenant.ManagementNote != null, () =>
         {

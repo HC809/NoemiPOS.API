@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
+using NoemiPOS.Application.Abstractions.Behaviors;
 
 namespace NoemiPOS.Application;
 public static class DIContainer
@@ -9,9 +10,10 @@ public static class DIContainer
         services.AddMediatR(config =>
         {
             config.RegisterServicesFromAssembly(typeof(DIContainer).Assembly);
+            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
 
-        services.AddValidatorsFromAssembly(typeof(DIContainer).Assembly);
+        services.AddValidatorsFromAssembly(typeof(DIContainer).Assembly, includeInternalTypes: true);
 
         return services;
     }
