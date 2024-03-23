@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoemiPOS.Application.Exceptions;
+using NoemiPOS.Infraestructure.Exceptions;
 using Npgsql;
 
 namespace NoemiPOS.Api.Middleware;
@@ -30,10 +31,44 @@ public class ExceptionHandlingMiddleware
 
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        ExceptionDetails exceptionDetails = GetExceptionDetails(exception);
+        var exceptionDetails = GetExceptionDetails(context, exception);
 
         _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
 
+        await WriteProblemDetailsAsync(context, exceptionDetails);
+    }
+
+    private ExceptionDetails GetExceptionDetails(HttpContext context, Exception exception)
+    {
+        if (exception is DbUpdateException dbUpdateException && dbUpdateException.InnerException is PostgresException postgresException)
+            return HandleDbUpdateException(context, postgresException);
+
+        return exception switch
+        {
+            ValidationException validationException => new ExceptionDetails(StatusCodes.Status400BadRequest, "ValidationFailure", "Validation Error", validationException.Message, validationException.Errors),
+            _ => new ExceptionDetails(StatusCodes.Status500InternalServerError, "ServerError", "Server Error", exception.Message, null)
+        };
+    }
+
+    private ExceptionDetails HandleDbUpdateException(HttpContext context, PostgresException postgresException)
+    {
+        var scopeFactory = context.RequestServices.GetService<IServiceScopeFactory>();
+        using (var scope = scopeFactory.CreateScope())
+        {
+            var postgresExceptionMapper = scope.ServiceProvider.GetService<IPostgresExceptionMapper>();
+            if (postgresExceptionMapper != null)
+            {
+                var postgresExceptionDetails = postgresExceptionMapper.Map(postgresException);
+
+                return new ExceptionDetails(postgresExceptionDetails.Status, postgresExceptionDetails.Type, postgresExceptionDetails.Title, postgresExceptionDetails.Detail, postgresExceptionDetails.Errors);
+            }
+        }
+
+        return new ExceptionDetails(StatusCodes.Status500InternalServerError, "PostgreSQLError", "Unexpected database error", postgresException.Detail, new[] { postgresException.Message });
+    }
+
+    private static async Task WriteProblemDetailsAsync(HttpContext context, ExceptionDetails exceptionDetails)
+    {
         var problemDetails = new ProblemDetails
         {
             Status = exceptionDetails.Status,
@@ -49,58 +84,14 @@ public class ExceptionHandlingMiddleware
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = exceptionDetails.Status;
-
         await context.Response.WriteAsJsonAsync(problemDetails);
     }
 
-    private ExceptionDetails GetExceptionDetails(Exception exception)
-    {
-        switch (exception)
-        {
-            case ValidationException validationException:
-                return new ExceptionDetails(StatusCodes.Status400BadRequest, "ValidationFailure", "Validation Error", validationException.Message, validationException.Errors);
-
-            case DbUpdateException dbUpdateException when dbUpdateException.InnerException is PostgresException postgresException:
-                return MapPostgresException(postgresException);
-
-            default:
-                return new ExceptionDetails(StatusCodes.Status500InternalServerError, "ServerError", "Server Error", exception.Message, null);
-        }
-    }
-
-    private static ExceptionDetails MapPostgresException(PostgresException postgresException)
-    {
-        if (PostgresErrorMap.TryGetValue(postgresException.SqlState, out var errorInfo))
-        {
-            return new ExceptionDetails(
-                errorInfo.StatusCode,
-                "PostgreSQL Error",
-                errorInfo.Title,
-                errorInfo.Detail,
-                new[] { postgresException.MessageText });
-        }
-        else
-        {
-            return new ExceptionDetails(
-                StatusCodes.Status500InternalServerError,
-                "PostgreSQL Error",
-                "Unexpected Error",
-                $"An unexpected database error has occurred: {postgresException.Message}",
-                new[] { postgresException.MessageText });
-        }
-    }
-
-    private static readonly Dictionary<string, (int StatusCode, string Title, string Detail)> PostgresErrorMap = new()
-{
-    { PostgresErrorCodes.UniqueViolation, (StatusCodes.Status409Conflict, "Unique Constraint Violation", "A record with the provided identifier already exists.") },
-    { PostgresErrorCodes.ForeignKeyViolation, (StatusCodes.Status400BadRequest, "Foreign Key Violation", "The operation violates a foreign key constraint.") },
-};
-
     internal sealed record ExceptionDetails(
-        int Status,
-        string Type,
-        string Title,
-        string Detail,
-        IEnumerable<object>? Errors);
+       int Status,
+       string Type,
+       string Title,
+       string Detail,
+       IEnumerable<object>? Errors);
 }
 

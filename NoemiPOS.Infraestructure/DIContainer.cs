@@ -1,11 +1,11 @@
-﻿using EntityFramework.Exceptions.PostgreSQL;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NoemiPOS.Application.Abstractions.Data;
 using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Tenants;
 using NoemiPOS.Infraestructure.Data;
+using NoemiPOS.Infraestructure.Exceptions;
 using NoemiPOS.Infraestructure.Repositories;
 
 namespace NoemiPOS.Infraestructure;
@@ -19,6 +19,8 @@ public static class DIContainer
         {
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
+
+        services.AddScoped<IPostgresExceptionMapper, PostgresExceptionMapper>();
 
         services.AddScoped<ITenantRepository, TenantRepository>();
 
