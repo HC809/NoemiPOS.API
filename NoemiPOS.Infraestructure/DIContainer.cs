@@ -20,13 +20,12 @@ public static class DIContainer
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
 
-        services.AddScoped<IPostgresExceptionMapper, PostgresExceptionMapper>();
-
         services.AddScoped<ITenantRepository, TenantRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
+        services.AddSingleton<IPostgresExceptionMapper, PostgresExceptionMapper>();
 
         return services;
     }
