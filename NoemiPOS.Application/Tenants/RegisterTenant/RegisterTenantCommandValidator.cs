@@ -1,19 +1,66 @@
 ﻿using FluentValidation;
+using NoemiPOS.Application.Tenants.RegisterTenant;
+using NoemiPOS.Domain.Shared;
+using NoemiPOS.Domain.Tenants;
 
-namespace NoemiPOS.Application.Tenants.RegisterTenant;
-internal class RegisterTenantCommandValidator : AbstractValidator<RegisterTenantCommand>
+namespace NoemiPOS.Application.xs.Registerx;
+internal class RegisterxCommandValidator : AbstractValidator<RegisterTenantCommand>
 {
-    public RegisterTenantCommandValidator()
+    private string RequiredErrorMessage = "El campo '{PropertyName}' es obligatorio";
+    private string OnlyDigitsErrorMessage = "El '{PropertyName}' solo debe contener dígitos";
+
+    public RegisterxCommandValidator()
     {
-        RuleFor(tenant => tenant.Email).EmailAddress().WithMessage("No es una dirección de correo electrónico válida"); ;
-        RuleFor(tenant => tenant.Description).NotEmpty();
-        When(tenant => tenant.ManagementNote != null, () =>
+        RuleFor(x => x.FullName).
+            NotEmpty().WithMessage(RequiredErrorMessage).
+            MinimumLength(12).WithMessage("El nombre completo debe ser de al menos 12 caracteres").
+            MaximumLength(250).WithMessage("La nombre completo no debe superar los 250 caracteres").
+            WithName("Nombre Completo");
+
+        RuleFor(x => x.Email).
+            NotEmpty().WithMessage(RequiredErrorMessage).
+            EmailAddress().WithMessage("No es una dirección de correo electrónico válida").
+            WithName("Correo Electrónico");
+
+        RuleFor(x => x.Dni).
+            NotEmpty().WithMessage(RequiredErrorMessage).
+            Length(13).WithMessage("El '{PropertyName}' debe tener 13 dígitos").
+            Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage).
+            WithName("DNI");
+
+        RuleFor(x => x.Rtn).
+            NotEmpty().WithMessage(RequiredErrorMessage).
+            Length(14).WithMessage("El '{PropertyName}' debe tener 14 dígitos").
+            Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage).
+            WithName("RTN");
+
+        RuleFor(x => x.Phone).
+            NotEmpty().WithMessage(RequiredErrorMessage).
+            Length(8).WithMessage("El '{PropertyName}' debe tener 8 dígitos").
+            Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage).
+            WithName("Número de Teléfono");
+
+        When(x => !string.IsNullOrEmpty(x.SecondaryPhone), () =>
         {
-            RuleFor(tenant => tenant.ManagementNote)
-                .MinimumLength(10)
-                .WithMessage("La nota de gestión debe tener al menos 10 caracteres")
-                .MaximumLength(2000)
-                .WithMessage("La nota de gestión no debe superar los 2,000 caracteres");
+            RuleFor(x => x.SecondaryPhone)
+                .Length(8).WithMessage("El '{PropertyName}' debe tener 8 dígitos")
+                .Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage)
+                .WithName("Número de Teléfono Secundario");
+        });
+
+        RuleFor(x => x.Country).NotEmpty().WithMessage(RequiredErrorMessage).WithName("País");
+        RuleFor(x => x.State).NotEmpty().WithMessage(RequiredErrorMessage).WithName("Departamento");
+        RuleFor(x => x.City).NotEmpty().WithMessage(RequiredErrorMessage).WithName("Ciudad");
+
+        RuleFor(x => x.Description).
+            MinimumLength(10).WithMessage("La descripción debe tener al menos 10 caracteres").
+            MaximumLength(2000).WithMessage("La descripción no debe superar los 2,000 caracteres");
+
+        When(x => !string.IsNullOrEmpty(x.ManagementNote), () =>
+        {
+            RuleFor(x => x.ManagementNote).
+                MinimumLength(10).WithMessage("La nota de gestión debe tener al menos 10 caracteres").
+                MaximumLength(2000).WithMessage("La nota de gestión no debe superar los 2,000 caracteres");
         });
     }
 }

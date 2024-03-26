@@ -44,7 +44,7 @@ public class TenantsController : ControllerBase
                 request.Dni,
                 request.Rtn,
                 request.Phone,
-                request.Phone,
+                request.SecondaryPhone,
                 request.Country,
                 request.State,
                 request.City,
