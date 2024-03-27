@@ -17,6 +17,9 @@ internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTen
 
     public async Task<Result<Guid>> Handle(RegisterTenantCommand request, CancellationToken cancellationToken)
     {
+        if (await _tenantRepository.ExistsByDniAsync(request.Dni))
+            return Result.Failure<Guid>(TenantErrors.ExistsDni);
+
         var tenant = Tenant.Create(
             new FullName(request.FullName),
             new Email(request.Email),
