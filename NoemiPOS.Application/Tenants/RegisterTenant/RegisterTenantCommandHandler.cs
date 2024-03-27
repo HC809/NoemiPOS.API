@@ -24,7 +24,7 @@ internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTen
             new TenantRtn(request.Rtn),
             new PhoneNumber(request.Phone),
             new SecondaryPhoneNumber(request.SecondaryPhone),
-            new Address(request.Country, request.State, request.City, request.State, request.PostalCode),
+            new TenantAddress(request.Country, request.State, request.City, request.State, request.PostalCode),
             new Description(request.Description),
             new ManagementNote(request.ManagementNote));
 

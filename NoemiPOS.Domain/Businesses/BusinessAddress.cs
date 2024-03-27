@@ -1,5 +1,5 @@
-﻿namespace NoemiPOS.Domain.Shared;
-public record Address(
+﻿namespace NoemiPOS.Domain.Businesses;
+public record BusinessAddress(
     string Country,
     string State,
     string City,

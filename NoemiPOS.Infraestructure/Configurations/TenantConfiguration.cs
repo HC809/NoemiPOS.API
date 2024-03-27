@@ -11,7 +11,14 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.ToTable("tenants");
         builder.HasKey(tenant => tenant.Id);
 
-        builder.OwnsOne(tenant => tenant.Address);
+        builder.OwnsOne(tenant => tenant.Address, addressNavigation =>
+        {
+            addressNavigation.Property(address => address.Country).IsRequired();
+            addressNavigation.Property(address => address.State).IsRequired();
+            addressNavigation.Property(address => address.City).IsRequired();
+            addressNavigation.Property(address => address.Street);
+            addressNavigation.Property(address => address.PostalCode).HasMaxLength(5); 
+        });
 
         builder.Property(tenant => tenant.FullName)
             .IsRequired()
@@ -39,9 +46,8 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
 
         builder.Property(tenant => tenant.SecondaryPhone)
             .HasMaxLength(8)
-            .HasConversion(
-            secondaryPhone => secondaryPhone != null ? secondaryPhone.Value : null,
-            value => value != null ? new SecondaryPhoneNumber(value) : null);
+            .HasConversion(secondaryPhone => secondaryPhone != null ? secondaryPhone.Value : null,
+                value => value != null ? new SecondaryPhoneNumber(value) : null);
 
         builder.Property(tenant => tenant.Description)
             .IsRequired()

@@ -13,7 +13,7 @@ public sealed class Tenant : Entity
         TenantRtn rtn,
         PhoneNumber phoneNumber,
         SecondaryPhoneNumber secondaryPhoneNumber,
-        Address adress,
+        TenantAddress adress,
         Description description,
         ManagementNote managementNote) : base(id)
     {
@@ -37,7 +37,7 @@ public sealed class Tenant : Entity
     public PhoneNumber Phone { get; private set; }
     public SecondaryPhoneNumber? SecondaryPhone { get; private set; }
     public Description Description { get; private set; }
-    public Address Address { get; private set; }
+    public TenantAddress Address { get; private set; }
     public ManagementNote ManagementNote { get; private set; }
 
     public static Tenant Create(
@@ -47,7 +47,7 @@ public sealed class Tenant : Entity
         TenantRtn rtn,
         PhoneNumber phoneNumber,
         SecondaryPhoneNumber secondaryPhoneNumber,
-        Address adress,
+        TenantAddress adress,
         Description description,
         ManagementNote managementNote)
     {

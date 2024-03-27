@@ -12,7 +12,7 @@ public sealed class Business : Entity
         Email email,
         PhoneNumber phone,
         SecondaryPhoneNumber? secondaryPhone,
-        Address address,
+        BusinessAddress address,
         BusinessType type,
         Description description,
         ManagementNote managementNote) : base(id)
@@ -39,7 +39,7 @@ public sealed class Business : Entity
     public Email Email { get; private set; }
     public PhoneNumber Phone { get; private set; }
     public SecondaryPhoneNumber? SecondaryPhone { get; private set; }
-    public Address Address { get; private set; }
+    public BusinessAddress Address { get; private set; }
     public BusinessType Type { get; private set; }
     public Description Description { get; private set; }
     public ManagementNote? ManagementNote { get; private set; }
