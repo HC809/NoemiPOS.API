@@ -10,4 +10,12 @@ public static class TenantErrors
     public static readonly Error ExistsDni = new(
         "Tenant.ExistsDni",
         "Ya existe un inquilino con el DNI especificado.");
+
+    public static readonly Error ExistsRtn = new(
+        "Tenant.ExistsRtn",
+        "Ya existe un inquilino con el RTN especificado.");
+
+    public static readonly Error ExistsEmail = new(
+        "Tenant.ExistsEmail",
+        "Ya existe un inquilino con el correo electrónico especificado.");
 }

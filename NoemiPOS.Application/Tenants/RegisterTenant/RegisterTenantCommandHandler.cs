@@ -20,6 +20,12 @@ internal sealed class RegisterTenantCommandHandler : ICommandHandler<RegisterTen
         if (await _tenantRepository.ExistsByDniAsync(request.Dni))
             return Result.Failure<Guid>(TenantErrors.ExistsDni);
 
+        if (await _tenantRepository.ExistsByRtnAsync(request.Rtn))
+            return Result.Failure<Guid>(TenantErrors.ExistsRtn);
+
+        if (await _tenantRepository.ExistsByEmailAsync(request.Email))
+            return Result.Failure<Guid>(TenantErrors.ExistsEmail);
+
         var tenant = Tenant.Create(
             new FullName(request.FullName),
             new Email(request.Email),

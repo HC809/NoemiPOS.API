@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Tenants;
+using System.Net;
 
 namespace NoemiPOS.Infraestructure.Repositories;
 internal sealed class TenantRepository : Repository<Tenant>, ITenantRepository
@@ -10,10 +12,22 @@ internal sealed class TenantRepository : Repository<Tenant>, ITenantRepository
 
     public async Task<bool> ExistsByDniAsync(string dni, CancellationToken cancellationToken = default)
     {
-        bool exists = await _dbContext.Set<Tenant>()
-         .FromSqlInterpolated($"SELECT * FROM Tenants WHERE Dni = {dni}")
+        return await _dbContext.Set<Tenant>()
+         .FromSqlInterpolated($"SELECT * FROM tenants WHERE dni = {dni}")
          .AnyAsync();
+    }
 
-        return exists;
+    public async Task<bool> ExistsByRtnAsync(string rtn, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<Tenant>()
+         .FromSqlInterpolated($"SELECT * FROM tenants WHERE rtn = {rtn}")
+         .AnyAsync();
+    }
+
+    public async Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<Tenant>()
+         .FromSqlInterpolated($"SELECT * FROM tenants WHERE email = {email}")
+         .AnyAsync();
     }
 }
