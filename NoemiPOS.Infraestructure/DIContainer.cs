@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NoemiPOS.Application.Abstractions.Data;
@@ -13,6 +14,15 @@ public static class DIContainer
 {
     public static IServiceCollection AddInfraestructure(this IServiceCollection services, IConfiguration configuration)
     {
+        AddPersistence(services, configuration);
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+
+        return services;
+    }
+
+    private static void AddPersistence(IServiceCollection services, IConfiguration configuration)
+    {
         var connectionString = configuration.GetConnectionString("NoemiDB") ?? throw new ArgumentNullException(nameof(configuration));
 
         services.AddDbContext<ApplicationDbContext>(options =>
@@ -26,7 +36,5 @@ public static class DIContainer
 
         services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
         services.AddSingleton<IPostgresExceptionMapper, PostgresExceptionMapper>();
-
-        return services;
     }
 }
