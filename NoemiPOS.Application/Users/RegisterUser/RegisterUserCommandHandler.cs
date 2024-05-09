@@ -1,5 +1,6 @@
 ﻿using NoemiPOS.Application.Abstractions.Messaging;
 using NoemiPOS.Domain.Abstractions;
+using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Users;
 
 namespace NoemiPOS.Application.Users.RegisterUser;
@@ -7,15 +8,38 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPasswordService _passwordService;
 
-    public RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
+        _passwordService = passwordService;
     }
 
-    public Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        if (await _userRepository.ExistsByDniAsync(request.Dni))
+            return Result.Failure<Guid>(UserErrors.ExistsDni);
+
+        if (await _userRepository.ExistsByEmailAsync(request.Email))
+            return Result.Failure<Guid>(UserErrors.ExistsEmail);
+
+        Username username = !string.IsNullOrEmpty(request.Username) ? new Username(request.Username) : new Username(request.Email);
+
+        var user = User.Create(
+            request.BusinessId,
+            new FirstName(request.FirstName),
+            new LastName(request.LastName),
+            new Email(request.Email),
+            username,
+            new Dni(request.Email),
+            new PhoneNumber(request.PhoneNumber),
+            _passwordService.GetHashPassword(request.Password));
+
+        _userRepository.Add(user);
+        await _unitOfWork.SaveChangesAsync();
+
+        return user.Id;
     }
 }

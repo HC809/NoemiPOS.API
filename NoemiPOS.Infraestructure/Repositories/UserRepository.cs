@@ -1,4 +1,5 @@
-﻿using NoemiPOS.Domain.Users;
+﻿using Microsoft.EntityFrameworkCore;
+using NoemiPOS.Domain.Users;
 
 namespace NoemiPOS.Infraestructure.Repositories;
 internal sealed class UserRepository : Repository<User>, IUserRepository
@@ -7,13 +8,17 @@ internal sealed class UserRepository : Repository<User>, IUserRepository
     {
     }
 
-    public Task<bool> ExistsByDniAsync(string dni, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByDniAsync(string dni, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Set<User>()
+         .FromSqlInterpolated($"SELECT * FROM users WHERE dni = {dni}")
+         .AnyAsync();
     }
 
-    public Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Set<User>()
+         .FromSqlInterpolated($"SELECT * FROM users WHERE email = {email}")
+         .AnyAsync();
     }
 }

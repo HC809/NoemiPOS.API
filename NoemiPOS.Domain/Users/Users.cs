@@ -33,17 +33,8 @@ public sealed class User : BaseTenantEntity
     public PhoneNumber PhoneNumber { get; private set; }
     public string HashPassword { get; private set; }
 
-    public static User Create(
-        Guid businessId,
-        FirstName firstName,
-        LastName lastName,
-        Email email,
-        Dni dni,
-        PhoneNumber phoneNumber,
-        string hashPassword)
+    public static User Create(Guid businessId, FirstName firstName, LastName lastName, Email email, Username username, Dni dni, PhoneNumber phoneNumber, string hashPassword)
     {
-        var username = new Username("test");
-
         var user = new User(
             Guid.NewGuid(),
             businessId,

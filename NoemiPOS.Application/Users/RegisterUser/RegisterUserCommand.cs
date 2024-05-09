@@ -3,10 +3,12 @@ using NoemiPOS.Domain.Users;
 
 namespace NoemiPOS.Application.Users.RegisterUser;
 public record RegisterUserCommand(
+    Guid BusinessId,
     string FirstName,
     string LastName,
     string Dni,
     string Email,
-    string Username,
+    string PhoneNumber,
     string Password,
-    Role Role) : ICommand<Guid>;
+    Role Role,
+    string? Username) : ICommand<Guid>;
