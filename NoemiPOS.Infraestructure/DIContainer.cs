@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NoemiPOS.Application.Abstractions.Data;
 using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Tenants;
+using NoemiPOS.Infraestructure.Authentication;
 using NoemiPOS.Infraestructure.Data;
 using NoemiPOS.Infraestructure.Exceptions;
 using NoemiPOS.Infraestructure.Repositories;
@@ -17,6 +18,8 @@ public static class DIContainer
         AddPersistence(services, configuration);
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+        services.Configure<AuthenticationOptions>(configuration.GetSection("JwtTokenSettings"));
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
 
         return services;
     }

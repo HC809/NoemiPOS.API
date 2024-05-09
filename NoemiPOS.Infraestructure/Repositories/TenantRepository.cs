@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Tenants;
-using System.Net;
 
 namespace NoemiPOS.Infraestructure.Repositories;
 internal sealed class TenantRepository : Repository<Tenant>, ITenantRepository

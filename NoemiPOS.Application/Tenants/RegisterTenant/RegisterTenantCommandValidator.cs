@@ -2,12 +2,12 @@
 using NoemiPOS.Application.Tenants.RegisterTenant;
 
 namespace NoemiPOS.Application.xs.Registerx;
-internal class RegisterxCommandValidator : AbstractValidator<RegisterTenantCommand>
+internal class RegisterTenantCommandValidator : AbstractValidator<RegisterTenantCommand>
 {
     private string RequiredErrorMessage = "El campo '{PropertyName}' es obligatorio";
     private string OnlyDigitsErrorMessage = "El '{PropertyName}' solo debe contener dígitos";
 
-    public RegisterxCommandValidator()
+    public RegisterTenantCommandValidator()
     {
         RuleFor(x => x.FullName).
             Cascade(CascadeMode.Stop).
