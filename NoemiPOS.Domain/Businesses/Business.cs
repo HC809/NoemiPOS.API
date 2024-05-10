@@ -12,11 +12,11 @@ public sealed class Business : Entity
         BusinessRtn rtn,
         Email email,
         PhoneNumber phone,
-        WebSiteUrl? webSiteUrl,
         SecondaryPhoneNumber? secondaryPhone,
         BusinessAddress address,
         BusinessType type,
-        ManagementNote managementNote) : base(id)
+        ManagementNote managementNote,
+        WebSiteUrl? webSiteUrl) : base(id)
     {
         TenantId = tenantId;
         Name = name;
@@ -25,14 +25,14 @@ public sealed class Business : Entity
         Email = email;
         Phone = phone;
         SecondaryPhone = secondaryPhone;
-        WebSiteUrl = webSiteUrl;
         Address = address;
         Type = type;
         ManagementNote = managementNote;
+        WebSiteUrl = webSiteUrl;
     }
     private Business()
     {
-            
+
     }
 
     public Guid TenantId { get; private set; }
@@ -46,4 +46,34 @@ public sealed class Business : Entity
     public BusinessAddress Address { get; private set; }
     public BusinessType Type { get; private set; }
     public ManagementNote ManagementNote { get; private set; }
+
+    public static Business Create(
+        Guid tenantId,
+        Name name,
+        Description description,
+        BusinessRtn rtn,
+        Email email,
+        PhoneNumber phoneNumber,
+        SecondaryPhoneNumber secondaryPhoneNumber,
+        BusinessAddress address,
+        BusinessType type,
+        ManagementNote managementNote,
+        WebSiteUrl? webSiteUrl)
+    {
+        var user = new Business(
+            Guid.NewGuid(),
+            tenantId,
+            name,
+            description,
+            rtn,
+            email,
+            phoneNumber,
+            secondaryPhoneNumber,
+            address,
+            type,
+            managementNote,
+            webSiteUrl ?? null);
+
+        return user;
+    }
 }

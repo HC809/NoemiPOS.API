@@ -25,14 +25,12 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
         if (await _userRepository.ExistsByEmailAsync(request.Email))
             return Result.Failure<Guid>(UserErrors.ExistsEmail);
 
-        Username username = !string.IsNullOrEmpty(request.Username) ? new Username(request.Username) : new Username(request.Email);
-
         var user = User.Create(
             request.BusinessId,
             new FirstName(request.FirstName),
             new LastName(request.LastName),
             new Email(request.Email),
-            username,
+            !string.IsNullOrEmpty(request.Username) ? new Username(request.Username) : new Username(request.Email),
             new Dni(request.Email),
             new PhoneNumber(request.PhoneNumber),
             _passwordService.GetHashPassword(request.Password));
