@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Tenants;
+using NoemiPOS.Domain.Shared;
 
 namespace NoemiPOS.Infraestructure.Configurations;
 internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
