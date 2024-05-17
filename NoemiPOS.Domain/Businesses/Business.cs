@@ -39,10 +39,10 @@ public sealed class Business : Entity
     public Email Email { get; private set; }
     public PhoneNumber Phone { get; private set; }
     public SecondaryPhoneNumber? SecondaryPhone { get; private set; }
-    public WebSiteUrl? WebSiteUrl { get; private set; }
     public BusinessAddress Address { get; private set; }
     public BusinessType Type { get; private set; }
     public ManagementNote ManagementNote { get; private set; }
+    public WebSiteUrl? WebSiteUrl { get; private set; }
 
     public static Business Create(
         Guid tenantId,

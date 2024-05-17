@@ -22,4 +22,8 @@ public static class BusinessErrors
     public static readonly Error InvalidBusinessType = new(
         "Business.InvalidBusinessType",
         "No existe un tipo de negocio con el nombre especificado.");
+
+    public static readonly Error TenantNotFound = new(
+        "Business.TenantNotFound",
+        "No se ha encontrado ningún inquilino con el ID especificado.");
 }

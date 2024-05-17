@@ -1,4 +1,5 @@
-﻿using NoemiPOS.Domain.Businesses;
+﻿using Microsoft.EntityFrameworkCore;
+using NoemiPOS.Domain.Businesses;
 
 namespace NoemiPOS.Infraestructure.Repositories;
 internal sealed class BusinessRepository : Repository<Business>, IBusinessRepository
@@ -7,18 +8,24 @@ internal sealed class BusinessRepository : Repository<Business>, IBusinessReposi
     {
     }
 
-    public Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Set<Business>()
+         .FromSqlInterpolated($"SELECT * FROM businesses WHERE email = {email}")
+         .AnyAsync();
     }
 
-    public Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Set<Business>()
+         .FromSqlInterpolated($"SELECT * FROM businesses WHERE name = {name}")
+         .AnyAsync();
     }
 
-    public Task<bool> ExistsByRtnAsync(string rtn, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByRtnAsync(string rtn, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Set<Business>()
+         .FromSqlInterpolated($"SELECT * FROM businesses WHERE rtn = {rtn}")
+         .AnyAsync();
     }
 }
