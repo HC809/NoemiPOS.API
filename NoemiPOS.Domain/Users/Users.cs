@@ -21,16 +21,18 @@ public sealed class User : BaseTenantEntity
         Email = email;
         Username = username;
         Dni = dni;
-        PhoneNumber = phoneNumber;
+        Phone = phoneNumber;
         HashPassword = hashPassword;
     }
+
+    internal User() { }
 
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
     public Email Email { get; private set; }
     public Username Username { get; private set; }
-    public Dni Dni { get; private set; }
-    public PhoneNumber PhoneNumber { get; private set; }
+    public Dni? Dni { get; private set; }
+    public PhoneNumber? Phone { get; private set; }
     public string HashPassword { get; private set; }
 
     public static User Create(Guid businessId, FirstName firstName, LastName lastName, Email email, Username username, Dni dni, PhoneNumber phoneNumber, string hashPassword)

@@ -30,10 +30,7 @@ public sealed class Business : Entity
         ManagementNote = managementNote;
         WebSiteUrl = webSiteUrl;
     }
-    private Business()
-    {
-
-    }
+    internal Business() { }
 
     public Guid TenantId { get; private set; }
     public Name Name { get; private set; }

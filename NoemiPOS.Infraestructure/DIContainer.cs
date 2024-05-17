@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NoemiPOS.Application.Abstractions.Data;
 using NoemiPOS.Domain.Abstractions;
+using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Tenants;
 using NoemiPOS.Domain.Users;
 using NoemiPOS.Infraestructure.Authentication;
@@ -18,7 +19,7 @@ public static class DIContainer
     public static IServiceCollection AddInfraestructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddPersistence(services, configuration);
-        AddAuthentication(services, configuration);
+        //AddAuthentication(services, configuration);
 
         services.AddSingleton<IPasswordService, PasswordService>();
 
@@ -37,12 +38,13 @@ public static class DIContainer
         var connectionString = configuration.GetConnectionString("NoemiDB") ?? throw new ArgumentNullException(nameof(configuration));
 
         services.AddDbContext<ApplicationDbContext>(options =>
-        {
+        {  
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
 
         services.AddScoped<ITenantRepository, TenantRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IBusinessRepository, BusinessRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();    
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 

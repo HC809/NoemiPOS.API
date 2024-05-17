@@ -13,6 +13,7 @@ internal sealed class BusinessConfiguration : IEntityTypeConfiguration<Business>
 
         builder.Property(business => business.Name)
            .IsRequired()
+           .HasMaxLength(250)
            .HasConversion(name => name.Value, value => new Name(value));
 
         builder.Property(business => business.Description)
@@ -39,6 +40,15 @@ internal sealed class BusinessConfiguration : IEntityTypeConfiguration<Business>
             .HasConversion(secondaryPhone => secondaryPhone != null ? secondaryPhone.Value : null,
                 value => value != null ? new SecondaryPhoneNumber(value) : null);
 
+        builder.OwnsOne(business => business.Address, addressNavigation =>
+        {
+            addressNavigation.Property(address => address.Country).IsRequired();
+            addressNavigation.Property(address => address.State).IsRequired();
+            addressNavigation.Property(address => address.City).IsRequired();
+            addressNavigation.Property(address => address.Street).IsRequired();
+            addressNavigation.Property(address => address.PostalCode).IsRequired().HasMaxLength(5);
+        });
+
         builder.Property(business => business.Type)
            .HasConversion(type => type.ToString(),  value => (BusinessType)Enum.Parse(typeof(BusinessType), value));
 
@@ -50,5 +60,9 @@ internal sealed class BusinessConfiguration : IEntityTypeConfiguration<Business>
             .HasMaxLength(250)
             .HasConversion(webSiteUrl => webSiteUrl != null ? webSiteUrl.Value : null,
                 value => value != null ? new WebSiteUrl(value) : null);
+
+        builder.HasIndex(business => business.Name).IsUnique();
+        builder.HasIndex(business => business.Email).IsUnique();
+        builder.HasIndex(business => business.Rtn).IsUnique();
     }
 }

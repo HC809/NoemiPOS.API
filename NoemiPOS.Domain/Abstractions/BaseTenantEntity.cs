@@ -7,5 +7,7 @@ public abstract class BaseTenantEntity : Entity
         BusinessId = businessId;
     }
 
+    internal BaseTenantEntity() { }
+
     public Guid BusinessId { get; init; }
 }
