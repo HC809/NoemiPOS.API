@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NoemiPOS.Application.Businesses.GetBusiness;
+using NoemiPOS.Application.Businesses.GetBusinesses;
 using NoemiPOS.Application.Businesses.RegisterBusiness;
 
 namespace NoemiPOS.Api.Controllers.Businesses;
@@ -16,11 +18,22 @@ public class BusinessesController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetBusiness(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetBusiness(Guid id, CancellationToken cancellationToken)
     {
-        return Ok();
+        var query = new GetBusinessQuery(id);
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess ? Ok(result.Value) : NotFound();
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetBusinesses(CancellationToken cancellationToken)
+    {
+        var query = new GetBusinessesQuery();
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess ? Ok(result.Value) : NotFound();
+    }
 
     [HttpPost]
     public async Task<IActionResult> RegisterBusiness(RegisterBusinessRequest request, CancellationToken cancellationToken)
