@@ -1,5 +1,6 @@
 ﻿using NoemiPOS.Application.Abstractions.Messaging;
 using NoemiPOS.Domain.Abstractions;
+using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Users;
 
@@ -7,18 +8,23 @@ namespace NoemiPOS.Application.Users.RegisterUser;
 internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, Guid>
 {
     private readonly IUserRepository _userRepository;
+    private readonly IBusinessRepository _businessRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordService _passwordService;
 
-    public RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService)
+    public RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService, IBusinessRepository businessRepository)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
         _passwordService = passwordService;
+        _businessRepository = businessRepository;
     }
 
     public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
+        if (await _businessRepository.GetByIdAsync(request.BusinessId) is null)
+            return Result.Failure<Guid>(BusinessErrors.NotFound);
+
         if (await _userRepository.ExistsByDniAsync(request.Dni))
             return Result.Failure<Guid>(UserErrors.ExistsDni);
 
