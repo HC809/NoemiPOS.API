@@ -37,7 +37,7 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
             new LastName(request.LastName),
             new Email(request.Email),
             !string.IsNullOrEmpty(request.Username) ? new Username(request.Username) : new Username(request.Email),
-            new Dni(request.Email),
+            new Dni(request.Dni),
             new PhoneNumber(request.PhoneNumber),
             _passwordService.GetHashPassword(request.Password));
 

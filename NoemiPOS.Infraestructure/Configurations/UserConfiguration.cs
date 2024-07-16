@@ -42,7 +42,6 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion(phone => phone != null ? phone.Value : null,
                 value => value != null ? new PhoneNumber(value) : null);
 
-
         builder.Property(user => user.HashPassword).IsRequired();
 
         builder.HasOne<Business>()

@@ -10,19 +10,21 @@ internal class RegisterBusinessCommandValidator : AbstractValidator<RegisterBusi
     {
         RuleFor(x => x.TenantId)
            .NotEmpty().WithMessage(RequiredErrorMessage)
-           .Must(BeAValidGuid).WithMessage("Id del inquilino no es un GUID válido");
+           .Must(BeAValidGuid).WithMessage("El '{PropertyName}' no es un GUID válido")
+           .WithName("Id del Inquilino");
 
         RuleFor(x => x.Name).
             Cascade(CascadeMode.Stop).
             NotEmpty().WithMessage(RequiredErrorMessage).
-            MinimumLength(3).WithMessage("El nombre del negocio debe ser de al menos 3 caracteres").
-            MaximumLength(250).WithMessage("La nombre del negocio no debe superar los 250 caracteres").
+            MinimumLength(3).WithMessage("El '{PropertyName}' debe ser de al menos 3 caracteres").
+            MaximumLength(250).WithMessage("La '{PropertyName}' no debe superar los 250 caracteres").
             WithName("Nombre del Negocio");
 
         RuleFor(x => x.Description).
             NotEmpty().WithMessage(RequiredErrorMessage).
-            MinimumLength(10).WithMessage("La descripción debe tener al menos 10 caracteres").
-            MaximumLength(2000).WithMessage("La descripción no debe superar los 2,000 caracteres");
+            MinimumLength(10).WithMessage("La '{PropertyName}' debe tener al menos 10 caracteres").
+            MaximumLength(2000).WithMessage("La '{PropertyName}' no debe superar los 2,000 caracteres").
+            WithName("Descripción");
 
         RuleFor(x => x.Rtn).
             Cascade(CascadeMode.Stop).
@@ -34,22 +36,20 @@ internal class RegisterBusinessCommandValidator : AbstractValidator<RegisterBusi
         RuleFor(x => x.Email).
              Cascade(CascadeMode.Stop).
              NotEmpty().WithMessage(RequiredErrorMessage).
-             EmailAddress().WithMessage("No es una dirección de correo electrónico válida").
+             EmailAddress().WithMessage("El '{PropertyName}' no es válido").
              WithName("Correo Electrónico");
 
         RuleFor(x => x.Phone).
             Cascade(CascadeMode.Stop).
             NotEmpty().WithMessage(RequiredErrorMessage).
-            Length(8).WithMessage("El '{PropertyName}' debe tener 8 dígitos").
-            Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage).
+            Matches(@"^\d{8}$").WithMessage("El '{PropertyName}' debe tener 8 dígitos").
             WithName("Número de Teléfono");
 
         When(x => !string.IsNullOrEmpty(x.SecondaryPhone), () =>
         {
             RuleFor(x => x.SecondaryPhone).
                 Cascade(CascadeMode.Stop).
-                Length(8).WithMessage("El '{PropertyName}' debe tener 8 dígitos").
-                Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage).
+                Matches(@"^\d{8}$").WithMessage("El '{PropertyName}' debe tener 8 dígitos").
                 WithName("Número de Teléfono Secundario");
         });
 
@@ -70,10 +70,9 @@ internal class RegisterBusinessCommandValidator : AbstractValidator<RegisterBusi
             {
                 RuleFor(x => x.WebSiteUrl).
                     Cascade(CascadeMode.Stop).
-                    Must(BeAValidUrl).WithMessage("URL del sitio web no es válido").
-                    WithName("Sitio Web");
+                    Must(BeAValidUrl).WithMessage("El '{PropertyName}' no es válido").
+                    WithName("URL del Sitio Web");
             });
-
     }
 
     private bool BeAValidGuid(Guid tenantId) => tenantId != Guid.Empty;

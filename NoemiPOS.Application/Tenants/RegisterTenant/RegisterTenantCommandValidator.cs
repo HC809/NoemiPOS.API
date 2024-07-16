@@ -12,14 +12,14 @@ internal class RegisterTenantCommandValidator : AbstractValidator<RegisterTenant
         RuleFor(x => x.FullName).
             Cascade(CascadeMode.Stop).
             NotEmpty().WithMessage(RequiredErrorMessage).
-            MinimumLength(12).WithMessage("El nombre completo debe ser de al menos 12 caracteres").
-            MaximumLength(250).WithMessage("La nombre completo no debe superar los 250 caracteres").
+            MinimumLength(12).WithMessage("El '{PropertyName}' debe ser de al menos 12 caracteres").
+            MaximumLength(250).WithMessage("La '{PropertyName}' no debe superar los 250 caracteres").
             WithName("Nombre Completo");
 
         RuleFor(x => x.Email).
             Cascade(CascadeMode.Stop).
             NotEmpty().WithMessage(RequiredErrorMessage).
-            EmailAddress().WithMessage("No es una dirección de correo electrónico válida").
+            EmailAddress().WithMessage("El '{PropertyName}' no es válido").
             WithName("Correo Electrónico");
 
         RuleFor(x => x.Dni).
@@ -39,16 +39,14 @@ internal class RegisterTenantCommandValidator : AbstractValidator<RegisterTenant
         RuleFor(x => x.Phone).
             Cascade(CascadeMode.Stop).
             NotEmpty().WithMessage(RequiredErrorMessage).
-            Length(8).WithMessage("El '{PropertyName}' debe tener 8 dígitos").
-            Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage).
+            Matches(@"^\d{8}$").WithMessage("El '{PropertyName}' debe tener 8 dígitos").
             WithName("Número de Teléfono");
 
         When(x => !string.IsNullOrEmpty(x.SecondaryPhone), () =>
         {
             RuleFor(x => x.SecondaryPhone).
                 Cascade(CascadeMode.Stop).
-                Length(8).WithMessage("El '{PropertyName}' debe tener 8 dígitos").
-                Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage).
+                Matches(@"^\d{8}$").WithMessage("El '{PropertyName}' debe tener 8 dígitos").
                 WithName("Número de Teléfono Secundario");
         });
 
@@ -57,8 +55,9 @@ internal class RegisterTenantCommandValidator : AbstractValidator<RegisterTenant
         RuleFor(x => x.City).NotEmpty().WithMessage(RequiredErrorMessage).WithName("Ciudad");
 
         RuleFor(x => x.Description).
-            MinimumLength(10).WithMessage("La descripción debe tener al menos 10 caracteres").
-            MaximumLength(2000).WithMessage("La descripción no debe superar los 2,000 caracteres");
+            MinimumLength(10).WithMessage("La '{PropertyName}' debe tener al menos 10 caracteres").
+            MaximumLength(2000).WithMessage("La '{PropertyName}' no debe superar los 2,000 caracteres").
+            WithName("Descripción");
 
         RuleFor(x => x.ManagementNote).
             Cascade(CascadeMode.Stop).
