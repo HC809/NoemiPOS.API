@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Users;
 
@@ -43,6 +44,11 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
 
         builder.Property(user => user.HashPassword).IsRequired();
+
+        builder.HasOne<Business>()
+            .WithMany()
+            .HasForeignKey(x => x.BusinessId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasIndex(user => user.Username).IsUnique();
         builder.HasIndex(user => user.Email).IsUnique();

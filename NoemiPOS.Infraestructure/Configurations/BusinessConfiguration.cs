@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Shared;
+using NoemiPOS.Domain.Tenants;
 
 namespace NoemiPOS.Infraestructure.Configurations;
 internal sealed class BusinessConfiguration : IEntityTypeConfiguration<Business>
@@ -50,7 +51,7 @@ internal sealed class BusinessConfiguration : IEntityTypeConfiguration<Business>
         });
 
         builder.Property(business => business.Type)
-           .HasConversion(type => type.ToString(),  value => (BusinessType)Enum.Parse(typeof(BusinessType), value));
+           .HasConversion(type => type.ToString(), value => (BusinessType)Enum.Parse(typeof(BusinessType), value));
 
         builder.Property(business => business.ManagementNote)
             .HasMaxLength(2000)
@@ -60,6 +61,12 @@ internal sealed class BusinessConfiguration : IEntityTypeConfiguration<Business>
             .HasMaxLength(250)
             .HasConversion(webSiteUrl => webSiteUrl != null ? webSiteUrl.Value : null,
                 value => value != null ? new WebSiteUrl(value) : null);
+
+
+        builder.HasOne<Tenant>()
+            .WithMany()
+            .HasForeignKey(x => x.TenantId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasIndex(business => business.Name).IsUnique();
         builder.HasIndex(business => business.Email).IsUnique();
