@@ -18,9 +18,9 @@ internal sealed class UserRepository : Repository<User>, IUserRepository
 
     public async Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<User>()
-         .FromSqlInterpolated($"SELECT * FROM users WHERE email = {email}")
-         .AnyAsync();
+        var emailObjectValue = (Email)email;
+
+        return await _dbContext.Set<User>().AnyAsync(x => x.Email == emailObjectValue, cancellationToken);
     }
 
     public async Task<User?> GetByEmailOrUsernameAsync(string emailUsername, CancellationToken cancellationToken = default)
