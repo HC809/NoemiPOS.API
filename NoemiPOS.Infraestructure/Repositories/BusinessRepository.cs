@@ -26,8 +26,8 @@ internal sealed class BusinessRepository : Repository<Business>, IBusinessReposi
 
     public async Task<bool> ExistsByRtnAsync(string rtn, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<Business>()
-         .FromSqlInterpolated($"SELECT * FROM businesses WHERE rtn = {rtn}")
-         .AnyAsync();
+        var rtnObjectValue = (BusinessRtn)rtn;
+
+        return await _dbContext.Set<Tenant>().AnyAsync(x => x.Rtn == rtnObjectValue, cancellationToken);
     }
 }
