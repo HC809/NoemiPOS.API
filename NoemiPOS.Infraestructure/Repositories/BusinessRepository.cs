@@ -19,9 +19,9 @@ internal sealed class BusinessRepository : Repository<Business>, IBusinessReposi
 
     public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<Business>()
-         .FromSqlInterpolated($"SELECT * FROM businesses WHERE name = {name}")
-         .AnyAsync();
+        var nameObjectValue = (Name)name;
+
+        return await _dbContext.Set<Business>().AnyAsync(x => x.Name == nameObjectValue, cancellationToken);
     }
 
     public async Task<bool> ExistsByRtnAsync(string rtn, CancellationToken cancellationToken = default)
