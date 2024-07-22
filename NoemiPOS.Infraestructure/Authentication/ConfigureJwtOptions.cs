@@ -4,13 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace NoemiPOS.Infraestructure.Authentication;
-internal sealed class JwtBearerOptionsSetup : IConfigureNamedOptions<JwtBearerOptions>
+internal sealed class ConfigureJwtOptions : IConfigureNamedOptions<JwtBearerOptions>
 {
-    private readonly AuthenticationOptions _authenticationOptions;
+    private readonly JwtSettings _jwtSettings;
 
-    public JwtBearerOptionsSetup(AuthenticationOptions authenticationOptions)
+    public ConfigureJwtOptions(IOptions<JwtSettings> jwtSettings)
     {
-        _authenticationOptions = authenticationOptions;
+        _jwtSettings = jwtSettings.Value;
     }
 
     public void Configure(string? name, JwtBearerOptions options)
@@ -20,15 +20,14 @@ internal sealed class JwtBearerOptionsSetup : IConfigureNamedOptions<JwtBearerOp
 
     public void Configure(JwtBearerOptions options)
     {
-        options.Audience = _authenticationOptions.Audience;
         // Configura el Audience y el Issuer
-        options.Audience = _authenticationOptions.Audience;
+        options.Audience = _jwtSettings.Audience;
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidIssuer = _authenticationOptions.Issuer,
+            ValidIssuer = _jwtSettings.Issuer,
 
             // Establece la SymmetricSecurityKey
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationOptions.Key)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)),
 
             // Valida la firma del token
             ValidateIssuerSigningKey = true,

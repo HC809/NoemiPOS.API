@@ -1,5 +1,6 @@
 ﻿namespace NoemiPOS.Domain.Users;
 public interface IPasswordService
 {
-    public string GetHashPassword(string password);
+    string GetHashPassword(string password);
+    bool VerifyPassword(string password, string hashedPassword);
 }

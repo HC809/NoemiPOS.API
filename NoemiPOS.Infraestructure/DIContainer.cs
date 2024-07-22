@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NoemiPOS.Application.Abstractions.Data;
 using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Businesses;
@@ -19,7 +20,7 @@ public static class DIContainer
     public static IServiceCollection AddInfraestructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddPersistence(services, configuration);
-        //AddAuthentication(services, configuration);
+        AddAuthentication(services, configuration);
 
         services.AddSingleton<IPasswordService, PasswordService>();
 
@@ -28,9 +29,10 @@ public static class DIContainer
 
     private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+        services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtOptions>();
+        services.AddScoped<IJwtService, JwtService>();
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
-        services.Configure<AuthenticationOptions>(configuration.GetSection("JwtTokenSettings"));
-        services.ConfigureOptions<JwtBearerOptionsSetup>();
     }
 
     private static void AddPersistence(IServiceCollection services, IConfiguration configuration)
@@ -38,13 +40,13 @@ public static class DIContainer
         var connectionString = configuration.GetConnectionString("NoemiDB") ?? throw new ArgumentNullException(nameof(configuration));
 
         services.AddDbContext<ApplicationDbContext>(options =>
-        {  
+        {
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
 
         services.AddScoped<ITenantRepository, TenantRepository>();
         services.AddScoped<IBusinessRepository, BusinessRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();    
+        services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 

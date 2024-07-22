@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Users;
 
 namespace NoemiPOS.Infraestructure.Repositories;
@@ -20,5 +21,16 @@ internal sealed class UserRepository : Repository<User>, IUserRepository
         return await _dbContext.Set<User>()
          .FromSqlInterpolated($"SELECT * FROM users WHERE email = {email}")
          .AnyAsync();
+    }
+
+    public async Task<User?> GetByEmailOrUsernameAsync(string emailUsername, CancellationToken cancellationToken = default)
+    {
+        var emailObjectValue = (Email)emailUsername;
+        var usernameObjectValue = (Username)emailUsername;
+
+        var user = await _dbContext.Set<User>().
+            FirstOrDefaultAsync(x => x.Email == emailObjectValue || x.Username == usernameObjectValue, cancellationToken);
+
+        return user ?? null;
     }
 }
