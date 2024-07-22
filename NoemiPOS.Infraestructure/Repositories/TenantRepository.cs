@@ -12,9 +12,9 @@ internal sealed class TenantRepository : Repository<Tenant>, ITenantRepository
 
     public async Task<bool> ExistsByDniAsync(string dni, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<Tenant>()
-         .FromSqlInterpolated($"SELECT * FROM tenants WHERE dni = {dni}")
-         .AnyAsync();
+        var dniObjectValue = (Dni)dni;
+
+        return await _dbContext.Set<Tenant>().AnyAsync(x => x.Dni == dniObjectValue, cancellationToken);
     }
 
     public async Task<bool> ExistsByRtnAsync(string rtn, CancellationToken cancellationToken = default)
