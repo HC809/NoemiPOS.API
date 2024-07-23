@@ -28,6 +28,6 @@ internal sealed class BusinessRepository : Repository<Business>, IBusinessReposi
     {
         var rtnObjectValue = (BusinessRtn)rtn;
 
-        return await _dbContext.Set<Tenant>().AnyAsync(x => x.Rtn == rtnObjectValue, cancellationToken);
+        return await _dbContext.Set<Business>().AnyAsync(x => x.Rtn == rtnObjectValue, cancellationToken);
     }
 }

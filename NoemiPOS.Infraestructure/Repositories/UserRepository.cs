@@ -14,7 +14,7 @@ internal sealed class UserRepository : Repository<User>, IUserRepository
     {
         var dniObjectValue = (Dni)dni;
 
-        return await _dbContext.Set<Tenant>().AnyAsync(x => x.Dni == dniObjectValue, cancellationToken);
+        return await _dbContext.Set<User>().AnyAsync(x => x.Dni == dniObjectValue, cancellationToken);
     }
 
     public async Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)

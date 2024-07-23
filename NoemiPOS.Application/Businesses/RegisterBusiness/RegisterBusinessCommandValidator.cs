@@ -31,7 +31,7 @@ internal class RegisterBusinessCommandValidator : AbstractValidator<RegisterBusi
             NotEmpty().WithMessage(RequiredErrorMessage).
             Length(14).WithMessage("El '{PropertyName}' debe tener 13 dígitos").
             Matches("^[0-9]+$").WithMessage(OnlyDigitsErrorMessage).
-            WithName("DNI");
+            WithName("RTN");
 
         RuleFor(x => x.Email).
              Cascade(CascadeMode.Stop).
