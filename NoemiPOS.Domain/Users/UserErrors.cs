@@ -15,6 +15,10 @@ public static class UserErrors
         "User.ExistsEmail",
         "Ya existe un usuario con el correo electrónico especificado.");
 
+    public static readonly Error ExistsUsername = new(
+        "User.ExistsUsername",
+        "Ya existe un usuario con el nombre de usuario especificado.");
+
     public static readonly Error InvalidCredentials = new(
         "User.InvalidCredentials",
         "Usuario o contraseña incorrectos.");

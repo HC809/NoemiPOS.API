@@ -24,6 +24,13 @@ internal sealed class UserRepository : Repository<User>, IUserRepository
         return await _dbContext.Set<User>().AnyAsync(x => x.Email == emailObjectValue, cancellationToken);
     }
 
+    public async Task<bool> ExistsByUsernameAsync(string username, CancellationToken cancellationToken = default)
+    {
+        var usernameObjectValue = (Username)username;
+
+        return await _dbContext.Set<User>().AnyAsync(x => x.Username == usernameObjectValue, cancellationToken);
+    }
+
     public async Task<User?> GetByEmailOrUsernameAsync(string emailUsername, CancellationToken cancellationToken = default)
     {
         var emailObjectValue = (Email)emailUsername;

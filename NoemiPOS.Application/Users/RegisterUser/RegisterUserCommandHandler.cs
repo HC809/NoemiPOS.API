@@ -31,12 +31,19 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
         if (await _userRepository.ExistsByEmailAsync(request.Email))
             return Result.Failure<Guid>(UserErrors.ExistsEmail);
 
+        Username username = !string.IsNullOrEmpty(request.Username)
+            ? new Username(request.Username)
+            : new Username(request.Email); //Crear servicio para extraer el texto antes del @
+
+        if (await _userRepository.ExistsByUsernameAsync(username.Value))
+            return Result.Failure<Guid>(UserErrors.ExistsUsername);
+
         var user = User.Create(
             request.BusinessId,
             new FirstName(request.FirstName),
             new LastName(request.LastName),
             new Email(request.Email),
-            !string.IsNullOrEmpty(request.Username) ? new Username(request.Username) : new Username(request.Email),
+            username,
             new Dni(request.Dni),
             new PhoneNumber(request.PhoneNumber),
             _passwordService.GetHashPassword(request.Password));
