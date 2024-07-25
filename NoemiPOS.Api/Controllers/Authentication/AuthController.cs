@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,13 @@ public class AuthController : ControllerBase
     public AuthController(ISender sender)
     {
         _sender = sender;
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult AuthTest()
+    {
+        return Ok("Auth test successfully!!");
     }
 
 

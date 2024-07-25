@@ -15,12 +15,13 @@ public class JwtService : IJwtService
         _jwtSettings = jwtSettings.Value;
     }
 
-    public string GenerateToken(Guid userId, string userName)
+    public string GenerateToken(Guid userId, string userName, Guid businessId)
     {
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.UniqueName, userName)
+            new Claim(JwtRegisteredClaimNames.UniqueName, userName),
+            new Claim("BusinessId", businessId.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));

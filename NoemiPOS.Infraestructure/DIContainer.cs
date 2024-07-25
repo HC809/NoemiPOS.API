@@ -12,6 +12,7 @@ using NoemiPOS.Infraestructure.Authentication;
 using NoemiPOS.Infraestructure.Authentication.Services;
 using NoemiPOS.Infraestructure.Data;
 using NoemiPOS.Infraestructure.Exceptions;
+using NoemiPOS.Infraestructure.Multinenacy;
 using NoemiPOS.Infraestructure.Repositories;
 
 namespace NoemiPOS.Infraestructure;
@@ -23,6 +24,9 @@ public static class DIContainer
         AddAuthentication(services, configuration);
 
         services.AddSingleton<IPasswordService, PasswordService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+        services.AddHttpContextAccessor();
 
         return services;
     }

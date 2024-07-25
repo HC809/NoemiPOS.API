@@ -9,5 +9,5 @@ public abstract class BaseTenantEntity : Entity
 
     internal BaseTenantEntity() { }
 
-    public Guid BusinessId { get; init; }
+    public Guid BusinessId { get; set; }
 }
