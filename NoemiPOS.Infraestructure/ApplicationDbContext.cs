@@ -6,6 +6,7 @@ using NoemiPOS.Domain.Users;
 using NoemiPOS.Infraestructure.Multinenacy;
 using System.Data;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace NoemiPOS.Infraestructure;
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
@@ -35,16 +36,28 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
         base.OnModelCreating(modelBuilder);
     }
 
-    private LambdaExpression CreateBusinessFilter(Type type)
+    private LambdaExpression CreateBusinessFilter(Type entityType)
     {
-        var parameter = Expression.Parameter(type, "e");
-        var property = Expression.Property(parameter, nameof(BaseTenantEntity.BusinessId));
-        var constant = Expression.Constant(_currentUserService.BusinessId);
-        var equality = Expression.Equal(property, constant);
-        var lambda = Expression.Lambda(equality, parameter);
+        var methodToCall = typeof(ApplicationDbContext).GetMethod(nameof(GetBusinessIdFilter), BindingFlags.NonPublic | BindingFlags.Static)
+            ?.MakeGenericMethod(entityType);
 
-        return lambda;
+        if (methodToCall == null)
+            throw new InvalidOperationException($"No method '{nameof(GetBusinessIdFilter)}' found on type '{nameof(ApplicationDbContext)}'.");
+
+        var filter = methodToCall.Invoke(null, new object[] { _currentUserService.BusinessId }) as LambdaExpression;
+
+        if (filter == null)
+            throw new InvalidOperationException($"Failed to create business filter for type '{entityType.Name}'.");
+
+        return filter;
     }
+
+    private static Expression<Func<T, bool>> GetBusinessIdFilter<T>(Guid businessId) where T : BaseTenantEntity
+    {
+        return entity => EF.Property<Guid>(entity, "BusinessId") == businessId;
+    }
+
+
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
