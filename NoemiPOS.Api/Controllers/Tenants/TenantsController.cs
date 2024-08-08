@@ -1,12 +1,15 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NoemiPOS.Application.Tenants.GetTenant;
 using NoemiPOS.Application.Tenants.RegisterTenant;
+using NoemiPOS.Infraestructure;
 
 namespace NoemiPOS.Api.Controllers.Tenants;
 
 [ApiController]
 [Route("api/tenants")]
+[Authorize(Policy = PoliciesConstants.NoemiSuperAdminPolicy)]
 public class TenantsController : ControllerBase
 {
     private readonly ISender _sender;

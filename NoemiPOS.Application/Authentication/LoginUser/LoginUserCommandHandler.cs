@@ -26,7 +26,7 @@ internal sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand
         if (!_passwordService.VerifyPassword(request.password, user.HashPassword))
             return Result.Failure<LoginUserResponse>(UserErrors.InvalidCredentials);
 
-        var token = _jwtService.GenerateToken(user.Id, user.Username, user.BusinessId);
+        var token = _jwtService.GenerateToken(user.Id, user.Username, user.BusinessId, new List<string>());
 
         var response = new LoginUserResponse(user.Email, $"{user.FirstName.Value} {user.LastName.Value}", token);
 

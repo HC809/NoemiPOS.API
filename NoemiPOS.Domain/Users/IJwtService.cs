@@ -1,5 +1,5 @@
 ﻿namespace NoemiPOS.Domain.Users;
 public interface IJwtService
 {
-    string GenerateToken(Guid userId, string userName, Guid businessId);
+    string GenerateToken(Guid userId, string userName, Guid businessId, List<string> roles);
 }

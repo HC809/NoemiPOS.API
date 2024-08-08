@@ -10,6 +10,7 @@ using NoemiPOS.Domain.Tenants;
 using NoemiPOS.Domain.Users;
 using NoemiPOS.Infraestructure.Authentication;
 using NoemiPOS.Infraestructure.Authentication.Services;
+using NoemiPOS.Infraestructure.Authorization;
 using NoemiPOS.Infraestructure.Data;
 using NoemiPOS.Infraestructure.Exceptions;
 using NoemiPOS.Infraestructure.Multinenacy;
@@ -22,6 +23,7 @@ public static class DIContainer
     {
         AddPersistence(services, configuration);
         AddAuthentication(services, configuration);
+        AddAuthorization(services);
 
         services.AddSingleton<IPasswordService, PasswordService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -37,6 +39,15 @@ public static class DIContainer
         services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtOptions>();
         services.AddScoped<IJwtService, JwtService>();
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+    }
+
+    private static void AddAuthorization(IServiceCollection services)
+    {
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(PoliciesConstants.NoemiSuperAdminPolicy, policy => policy.RequireRole(RolesConstants.NoemiSuperAdmin));
+            options.AddPolicy(PoliciesConstants.BusinessAdminPolicy, policy => policy.RequireRole(RolesConstants.BusinessAdmin));
+        });
     }
 
     private static void AddPersistence(IServiceCollection services, IConfiguration configuration)
