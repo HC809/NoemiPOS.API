@@ -31,6 +31,14 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
                 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(
                     CreateBusinessFilter(entityType.ClrType));
             }
+
+            if (typeof(AuditableEntity).IsAssignableFrom(entityType.ClrType))
+            {
+                modelBuilder.Entity(entityType.ClrType).Property<DateTime>("CreatedAt");
+                modelBuilder.Entity(entityType.ClrType).Property<string>("CreatedBy");
+                modelBuilder.Entity(entityType.ClrType).Property<DateTime?>("UpdatedAt");
+                modelBuilder.Entity(entityType.ClrType).Property<string>("UpdatedBy");
+            }
         }
 
         base.OnModelCreating(modelBuilder);
@@ -57,17 +65,30 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
         return entity => EF.Property<Guid>(entity, "BusinessId") == businessId;
     }
 
-
-
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         try
         {
             foreach (var entry in ChangeTracker.Entries())
             {
-                if (entry.Entity is BaseTenantEntity mustHaveBussinessEntity)
+                if (entry.Entity is BaseTenantEntity baseTenantEntity)
                 {
-                    mustHaveBussinessEntity.BusinessId = _currentUserService.BusinessId;
+                    if (entry.State == EntityState.Added || baseTenantEntity.BusinessId == Guid.Empty)
+                    {
+                        baseTenantEntity.BusinessId = _currentUserService.BusinessId;
+                    }
+                }
+
+                if (entry.Entity is AuditableEntity auditableEntity)
+                {
+                    if (entry.State == EntityState.Added)
+                    {
+                        auditableEntity.SetCreated(_currentUserService.UserId.ToString());
+                    }
+                    else if (entry.State == EntityState.Modified)
+                    {
+                        auditableEntity.SetUpdated(_currentUserService.UserId.ToString());
+                    }
                 }
             }
 
