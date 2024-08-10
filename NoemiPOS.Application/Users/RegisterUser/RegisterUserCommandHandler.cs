@@ -3,6 +3,7 @@ using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Users;
+using System.Data;
 
 namespace NoemiPOS.Application.Users.RegisterUser;
 internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, Guid>
@@ -38,6 +39,15 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
         if (await _userRepository.ExistsByUsernameAsync(username.Value))
             return Result.Failure<Guid>(UserErrors.ExistsUsername);
 
+        var userRoles = new List<string>();
+        foreach (var role in request.Roles)
+        {
+            if (Enum.TryParse<UserRoles>(role, out var validRole))
+                userRoles.Add(validRole.ToString());
+            else
+                return Result.Failure<Guid>(UserErrors.InvalidRole);
+        }
+
         var user = User.Create(
             request.BusinessId,
             new FirstName(request.FirstName),
@@ -46,7 +56,8 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
             username,
             new Dni(request.Dni),
             new PhoneNumber(request.PhoneNumber),
-            _passwordService.GetHashPassword(request.Password));
+            _passwordService.GetHashPassword(request.Password),
+            userRoles);
 
         _userRepository.Add(user);
         await _unitOfWork.SaveChangesAsync();

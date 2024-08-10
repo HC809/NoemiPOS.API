@@ -13,7 +13,8 @@ public sealed class User : BaseTenantEntity
         Username username,
         Dni dni,
         PhoneNumber phoneNumber,
-        string hashPassword
+        string hashPassword,
+        List<string> roles
         ) : base(id, businessId)
     {
         FirstName = firstName;
@@ -23,9 +24,8 @@ public sealed class User : BaseTenantEntity
         Dni = dni;
         Phone = phoneNumber;
         HashPassword = hashPassword;
+        Roles = roles ?? new List<string>();
     }
-
-    internal User() { }
 
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
@@ -34,8 +34,9 @@ public sealed class User : BaseTenantEntity
     public Dni? Dni { get; private set; }
     public PhoneNumber? Phone { get; private set; }
     public string HashPassword { get; private set; }
+    public List<string> Roles { get; private set; }
 
-    public static User Create(Guid businessId, FirstName firstName, LastName lastName, Email email, Username username, Dni dni, PhoneNumber phoneNumber, string hashPassword)
+    public static User Create(Guid businessId, FirstName firstName, LastName lastName, Email email, Username username, Dni dni, PhoneNumber phoneNumber, string hashPassword, List<string> roles)
     {
         var user = new User(
             Guid.NewGuid(),
@@ -46,8 +47,13 @@ public sealed class User : BaseTenantEntity
             username,
             dni,
             phoneNumber,
-            hashPassword);
+            hashPassword,
+            roles);
 
         return user;
     }
+
+#nullable disable
+    internal User() { }
+#nullable restore
 }

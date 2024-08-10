@@ -26,7 +26,7 @@ public class UsersController : ControllerBase
             request.Email,
             request.PhoneNumber,
             request.Password,
-            request.Role,
+            request.Roles,
             request.Username);
 
         var result = await _sender.Send(command, cancellationToken);

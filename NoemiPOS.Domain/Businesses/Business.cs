@@ -30,7 +30,6 @@ public sealed class Business : Entity
         ManagementNote = managementNote;
         WebSiteUrl = webSiteUrl;
     }
-    internal Business() { }
 
     public Guid TenantId { get; private set; }
     public Name Name { get; private set; }
@@ -73,4 +72,8 @@ public sealed class Business : Entity
 
         return user;
     }
+
+#nullable disable
+    internal Business() { }
+#nullable restore
 }

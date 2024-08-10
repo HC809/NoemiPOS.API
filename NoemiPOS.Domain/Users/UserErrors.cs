@@ -19,6 +19,10 @@ public static class UserErrors
         "User.ExistsUsername",
         "Ya existe un usuario con el nombre de usuario especificado.");
 
+    public static readonly Error InvalidRole = new(
+        "User.InvalidRole",
+        "La lista contiene un rol no válido.");
+
     public static readonly Error InvalidCredentials = new(
         "User.InvalidCredentials",
         "Usuario o contraseña incorrectos.");

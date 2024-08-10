@@ -10,5 +10,5 @@ public sealed record RegisterUserRequest(
     string Email,
     string PhoneNumber,
     string Password,
-    Role Role,
+    List<string> Roles,
     string Username);

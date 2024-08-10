@@ -28,9 +28,7 @@ public sealed class Tenant : Entity
         ManagementNote = managementNote;
     }
 
-    private Tenant() { }
-
-    public FullName FullName { get; private set; }
+    public FullName FullName { get; private set; } 
     public Email Email { get; private set; }
     public Dni Dni { get; private set; }
     public TenantRtn Rtn { get; private set; }
@@ -67,4 +65,8 @@ public sealed class Tenant : Entity
 
         return tenant;
     }
+
+#nullable disable
+    internal Tenant() { }
+#nullable restore
 }

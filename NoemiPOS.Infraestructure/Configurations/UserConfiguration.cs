@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Users;
@@ -43,6 +44,10 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
                 value => value != null ? new PhoneNumber(value) : null);
 
         builder.Property(user => user.HashPassword).IsRequired();
+
+        builder.Property(user => user.Roles)
+            .IsRequired()
+            .HasColumnType("text[]");
 
         builder.HasOne<Business>()
             .WithMany()

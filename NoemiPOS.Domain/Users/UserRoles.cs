@@ -1,8 +1,8 @@
 ﻿namespace NoemiPOS.Domain.Users;
-public enum Role
+public enum UserRoles
 {
     NoemiSuperAdmin,
-    NoemiAdmin,
     BusinessAdmin,
-    BusinessUser
+    BusinessPOS
 }
+

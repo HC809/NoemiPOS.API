@@ -5,14 +5,15 @@ public sealed class BusinessResponse
 {
     public Guid Id { get; init; }
     public Guid TenantId { get; init; }
-    public string Name { get; init; }
-    public string Description { get; init; }
-    public string Rtn { get; init; }
-    public string Email { get; init; }
-    public string Phone { get; init; }
-    public string SecondaryPhone { get; init; }
-    public AddressResponse Address { get; set; }
-    public string Type { get; init; }
-    public string ManagementNote { get; init; }
-    public string WebSiteUrl { get; init; }
+    public string Name { get; init; } = string.Empty;
+    public string Description { get; init; } = string.Empty;
+    public string Rtn { get; init; } = string.Empty;
+    public string Email { get; init; } = string.Empty;
+    public string Phone { get; init; } = string.Empty;
+    public string SecondaryPhone { get; init; } = string.Empty;
+    public AddressResponse Address { get; set; } = new AddressResponse(); 
+    public string Type { get; init; } = string.Empty;
+    public string ManagementNote { get; init; } = string.Empty;
+    public string WebSiteUrl { get; init; } = string.Empty;
 }
+

@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using NoemiPOS.Domain.Users;
+using System.Data;
 
 namespace NoemiPOS.Application.Users.RegisterUser;
 internal class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
@@ -57,6 +59,23 @@ internal class RegisterUserCommandValidator : AbstractValidator<RegisterUserComm
             NotEmpty().WithMessage(RequiredErrorMessage).
             MinimumLength(6).WithMessage("La '{PropertyName}' debe ser de al menos 6 caracteres").
             WithName("Contraseña");
+
+        RuleFor(x => x.Roles)
+            .Cascade(CascadeMode.Stop)
+            .NotNull().WithMessage("Debe proporcionar al menos un rol.")
+            .NotEmpty().WithMessage("Debe tener al menos un rol.");
+
+        RuleForEach(x => x.Roles)
+            .Cascade(CascadeMode.Stop)
+            .Must(role => Enum.IsDefined(typeof(UserRoles), role))
+            .WithMessage("Rol no válido: {PropertyValue}")
+            .WithName("Roles");
+
+        //RuleFor(x => x.Roles).
+        //    Cascade(CascadeMode.Stop).
+        //    NotEmpty().WithMessage("Debe tener al menos un rol.").
+        //    Must(roles => roles != null && roles.Any()).WithMessage("Debe tener al menos un rol válido.").
+        //    WithName("Roles");
     }
 
     private bool BeAValidGuid(Guid tenantId) => tenantId != Guid.Empty;

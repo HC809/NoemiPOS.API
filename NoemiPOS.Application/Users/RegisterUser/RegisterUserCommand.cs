@@ -10,5 +10,5 @@ public record RegisterUserCommand(
     string Email,
     string PhoneNumber,
     string Password,
-    Role Role,
+    List<string> Roles,
     string? Username) : ICommand<Guid>;

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NoemiPOS.Application.Exceptions;
 using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Users;
@@ -71,7 +72,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
         {
             foreach (var entry in ChangeTracker.Entries())
             {
-                if (entry.Entity is BaseTenantEntity baseTenantEntity)
+                if (entry.Entity is BaseTenantEntity baseTenantEntity && entry.GetType() != typeof(User))
                 {
                     if (entry.State == EntityState.Added || baseTenantEntity.BusinessId == Guid.Empty)
                     {

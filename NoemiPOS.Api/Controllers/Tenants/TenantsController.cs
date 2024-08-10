@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NoemiPOS.Application.Tenants.GetTenant;
 using NoemiPOS.Application.Tenants.RegisterTenant;
-using NoemiPOS.Infraestructure;
+using NoemiPOS.Infraestructure.Authorization;
 
 namespace NoemiPOS.Api.Controllers.Tenants;
 
