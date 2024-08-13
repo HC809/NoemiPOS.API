@@ -28,4 +28,13 @@ internal sealed class CurrentUserService : ICurrentUserService
             return businessIdClaim is not null ? Guid.Parse(businessIdClaim) : Guid.Empty;
         }
     }
+
+    public bool IsBusinessUser
+    {
+        get
+        {
+            var isBusinessUserClaim = _httpContextAccessor.HttpContext?.User?.FindFirst("IsBusinessUser")?.Value;
+            return isBusinessUserClaim is not null && bool.TryParse(isBusinessUserClaim, out bool isBusinessUser) && isBusinessUser;
+        }
+    }
 }

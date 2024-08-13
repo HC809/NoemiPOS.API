@@ -3,17 +3,16 @@ using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Users;
-using System.Data;
 
-namespace NoemiPOS.Application.Users.RegisterUser;
-internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, Guid>
+namespace NoemiPOS.Application.Users.RegisterBusinessUser;
+internal class RegisterBusinessUserCommandHandler : ICommandHandler<RegisterBusinessUserCommand, Guid>
 {
     private readonly IUserRepository _userRepository;
     private readonly IBusinessRepository _businessRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordService _passwordService;
 
-    public RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService, IBusinessRepository businessRepository)
+    public RegisterBusinessUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordService passwordService, IBusinessRepository businessRepository)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
@@ -21,13 +20,8 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
         _businessRepository = businessRepository;
     }
 
-    public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(RegisterBusinessUserCommand request, CancellationToken cancellationToken)
     {
-        Business? business = await _businessRepository.GetByIdAsync(request.BusinessId);
-
-        if (business is null)
-            return Result.Failure<Guid>(BusinessErrors.NotFound);
-
         if (await _userRepository.ExistsByDniAsync(request.Dni))
             return Result.Failure<Guid>(UserErrors.ExistsDni);
 
@@ -44,17 +38,20 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
         var userRoles = new List<string>();
         foreach (var role in request.Roles)
         {
-            if(business.Name.Value is not "NoemiPOS" && role == UserRoles.NoemiSuperAdmin.ToString())
-                return Result.Failure<Guid>(UserErrors.InvalidRole);
+            var isValidRole = Enum.TryParse<UserRoles>(role, out var validRole);
 
-            if (Enum.TryParse<UserRoles>(role, out var validRole))
-                userRoles.Add(validRole.ToString());
-            else
+            if (!isValidRole || (role == UserRoles.NoemiSuperAdmin.ToString()))
+            {
                 return Result.Failure<Guid>(UserErrors.InvalidRole);
+            }
+            else
+            {
+                userRoles.Add(validRole.ToString());
+            }
         }
 
         var user = User.Create(
-            request.BusinessId,
+            new Guid(), //Ficticio
             new FirstName(request.FirstName),
             new LastName(request.LastName),
             new Email(request.Email),

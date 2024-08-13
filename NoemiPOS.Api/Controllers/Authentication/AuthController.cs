@@ -1,10 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using NoemiPOS.Application.Authentication.LoginUser;
-using NoemiPOS.Infraestructure.Authentication.Services;
 
 namespace NoemiPOS.Api.Controllers.Authentication;
 

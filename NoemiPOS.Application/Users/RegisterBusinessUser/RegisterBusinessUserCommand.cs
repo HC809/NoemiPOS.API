@@ -1,8 +1,7 @@
 ﻿using NoemiPOS.Application.Abstractions.Messaging;
 
-namespace NoemiPOS.Application.Users.RegisterUser;
-public record RegisterUserCommand(
-    Guid BusinessId,
+namespace NoemiPOS.Application.Users.RegisterBusinessUser;
+public record RegisterBusinessUserCommand(
     string FirstName,
     string LastName,
     string Dni,

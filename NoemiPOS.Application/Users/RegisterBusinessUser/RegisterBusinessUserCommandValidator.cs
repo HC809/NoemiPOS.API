@@ -1,20 +1,14 @@
 ﻿using FluentValidation;
 using NoemiPOS.Domain.Users;
-using System.Data;
 
-namespace NoemiPOS.Application.Users.RegisterUser;
-internal class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+namespace NoemiPOS.Application.Users.RegisterBusinessUser;
+internal class RegisterBusinessUserCommandValidator : AbstractValidator<RegisterBusinessUserCommand>
 {
     private string RequiredErrorMessage = "El campo '{PropertyName}' es obligatorio";
     private string OnlyDigitsErrorMessage = "El '{PropertyName}' solo debe contener dígitos";
 
-    public RegisterUserCommandValidator()
+    public RegisterBusinessUserCommandValidator()
     {
-        RuleFor(x => x.BusinessId)
-            .NotEmpty().WithMessage(RequiredErrorMessage)
-            .Must(BeAValidGuid).WithMessage("El '{PropertyName}' no es un GUID válido")
-            .WithName("Id del Negocio");
-
         RuleFor(x => x.FirstName).
             Cascade(CascadeMode.Stop).
             NotEmpty().WithMessage(RequiredErrorMessage).
@@ -71,10 +65,4 @@ internal class RegisterUserCommandValidator : AbstractValidator<RegisterUserComm
             .WithMessage("Rol no válido: {PropertyValue}")
             .WithName("Roles");
     }
-
-    private bool BeAValidGuid(Guid tenantId) => tenantId != Guid.Empty;
-
-    private bool BeAValidUrl(string url)
-        => Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
-               && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 }

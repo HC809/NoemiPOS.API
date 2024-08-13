@@ -1,13 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NoemiPOS.Application.Businesses.GetBusiness;
 using NoemiPOS.Application.Businesses.GetBusinesses;
 using NoemiPOS.Application.Businesses.RegisterBusiness;
+using NoemiPOS.Infraestructure.Authorization;
 
 namespace NoemiPOS.Api.Controllers.Businesses;
 
 [ApiController]
 [Route("api/businesses")]
+[Authorize(Policy = PoliciesConstants.NoemiSuperAdminPolicy)]
 public class BusinessesController : ControllerBase
 {
     private readonly ISender _sender;
