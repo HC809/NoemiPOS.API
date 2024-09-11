@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NoemiPOS.Domain.Users;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,10 +10,12 @@ namespace NoemiPOS.Infraestructure.Authentication.Services;
 public class JwtService : IJwtService
 {
     private readonly JwtSettings _jwtSettings;
+    private readonly string _timeZoneId;
 
-    public JwtService(IOptions<JwtSettings> jwtSettings)
+    public JwtService(IOptions<JwtSettings> jwtSettings, IConfiguration configuration)
     {
         _jwtSettings = jwtSettings.Value;
+        _timeZoneId = configuration["TimeZone"] ?? "UTC";
     }
 
     public JwtResponse GenerateToken(Guid userId, string userName, Guid businessId, List<string> roles)
@@ -39,10 +42,13 @@ public class JwtService : IJwtService
             _jwtSettings.Issuer,
             _jwtSettings.Audience,
             claims,
-            expires: DateTime.Now.AddMinutes(15),
+            expires: DateTime.UtcNow.AddMinutes(15),
             signingCredentials: creds);
 
-        return new JwtResponse(new JwtSecurityTokenHandler().WriteToken(securityToken), securityToken.ValidTo);
+        var timeZone = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
+        var expirationLocal = TimeZoneInfo.ConvertTimeFromUtc(securityToken.ValidTo, timeZone);
+
+        return new JwtResponse(new JwtSecurityTokenHandler().WriteToken(securityToken), expirationLocal);
     }
 }
 
