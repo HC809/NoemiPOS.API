@@ -3,7 +3,6 @@ using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Shared;
 using NoemiPOS.Domain.Users;
-using System.Data;
 
 namespace NoemiPOS.Application.Users.RegisterUser;
 internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, Guid>

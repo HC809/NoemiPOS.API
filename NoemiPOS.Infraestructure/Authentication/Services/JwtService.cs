@@ -15,7 +15,7 @@ public class JwtService : IJwtService
         _jwtSettings = jwtSettings.Value;
     }
 
-    public string GenerateToken(Guid userId, string userName, Guid businessId, List<string> roles)
+    public JwtResponse GenerateToken(Guid userId, string userName, Guid businessId, List<string> roles)
     {
         var claims = new List<Claim>
         {
@@ -35,14 +35,15 @@ public class JwtService : IJwtService
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var token = new JwtSecurityToken(
+        var securityToken = new JwtSecurityToken(
             _jwtSettings.Issuer,
             _jwtSettings.Audience,
             claims,
-            expires: DateTime.Now.AddMinutes(60),
+            expires: DateTime.Now.AddMinutes(15),
             signingCredentials: creds);
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return new JwtResponse(new JwtSecurityTokenHandler().WriteToken(securityToken), securityToken.ValidTo);
     }
 }
+
 

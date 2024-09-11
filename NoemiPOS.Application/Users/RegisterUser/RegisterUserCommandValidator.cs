@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using NoemiPOS.Domain.Users;
-using System.Data;
 
 namespace NoemiPOS.Application.Users.RegisterUser;
 internal class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>

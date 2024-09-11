@@ -1,5 +1,4 @@
 using Microsoft.OpenApi.Models;
-using NoemiPOS.Api;
 using NoemiPOS.Api.Extensions;
 using NoemiPOS.Application;
 using NoemiPOS.Infraestructure;
