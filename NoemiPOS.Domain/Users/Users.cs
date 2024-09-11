@@ -2,7 +2,7 @@
 using NoemiPOS.Domain.Shared;
 
 namespace NoemiPOS.Domain.Users;
-public sealed class User : BaseTenantEntity
+public sealed class User : AuditableEntity
 {
     private User(
         Guid id,

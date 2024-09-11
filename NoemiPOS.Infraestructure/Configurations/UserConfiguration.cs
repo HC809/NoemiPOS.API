@@ -56,5 +56,22 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(user => user.Username).IsUnique();
         builder.HasIndex(user => user.Email).IsUnique();
         builder.HasIndex(user => user.Dni).IsUnique();
+
+        //Audit Fields
+        builder.Property(user => user.CreatedAt)
+           .IsRequired()
+           .HasColumnName("created_at");
+
+        builder.Property(user => user.CreatedBy)
+            .IsRequired()
+            .HasMaxLength(100)
+            .HasColumnName("created_by");
+
+        builder.Property(user => user.UpdatedAt)
+            .HasColumnName("updated_at");
+
+        builder.Property(user => user.UpdatedBy)
+            .HasMaxLength(100)
+            .HasColumnName("updated_by");
     }
 }

@@ -23,4 +23,8 @@ public abstract class AuditableEntity : BaseTenantEntity
         UpdatedBy = updatedBy;
         UpdatedAt = DateTime.UtcNow;
     }
+
+#nullable disable
+    internal AuditableEntity() { }
+#nullable restore
 }

@@ -15,7 +15,7 @@ internal sealed class CurrentUserService : ICurrentUserService
     {
         get
         {
-            var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+            var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst("UserId")?.Value;
             return userIdClaim is not null ? Guid.Parse(userIdClaim) : Guid.Empty;
         }
     }
