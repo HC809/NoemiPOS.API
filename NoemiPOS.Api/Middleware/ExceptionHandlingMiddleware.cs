@@ -44,12 +44,22 @@ public class ExceptionHandlingMiddleware
     {
         return exception switch
         {
-            ValidationException validationException => new ExceptionDetails(StatusCodes.Status400BadRequest, "ValidationFailure", "Validation Error", validationException.Message, validationException.Errors),
+            ValidationException validationException => new ExceptionDetails(
+                StatusCodes.Status422UnprocessableEntity, 
+                "ValidationFailure", 
+                "Validation Error", 
+                validationException.Message, 
+                validationException.Errors),
 
             DbUpdateException dbUpdateException when dbUpdateException.InnerException is PostgresException postgresException
-            => MapPostgresExceptionToExceptionDetails(postgresException),
+                => MapPostgresExceptionToExceptionDetails(postgresException),
 
-            _ => new ExceptionDetails(StatusCodes.Status500InternalServerError, "ServerError", "Server Error", exception.Message, null)
+            _ => new ExceptionDetails(
+                StatusCodes.Status500InternalServerError, 
+                "ServerError", 
+                "Server Error", 
+                exception.Message, 
+                null)
         }; ;
     }
 
@@ -57,7 +67,12 @@ public class ExceptionHandlingMiddleware
     {
         var postgresExceptionDetails = _postgresExceptionMapper.Map(postgresException);
 
-        return new ExceptionDetails(postgresExceptionDetails.Status, postgresExceptionDetails.Type, postgresExceptionDetails.Title, postgresExceptionDetails.Detail, postgresExceptionDetails.Errors);
+        return new ExceptionDetails(
+            postgresExceptionDetails.Status, 
+            postgresExceptionDetails.Type, 
+            postgresExceptionDetails.Title, 
+            postgresExceptionDetails.Detail, 
+            postgresExceptionDetails.Errors);
     }
 
     private static async Task WriteProblemDetailsAsync(HttpContext context, ExceptionDetails exceptionDetails)
