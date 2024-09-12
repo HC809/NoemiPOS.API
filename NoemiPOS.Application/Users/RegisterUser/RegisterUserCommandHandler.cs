@@ -43,7 +43,7 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
         var userRoles = new List<string>();
         foreach (var role in request.Roles)
         {
-            if(business.Name.Value is not "NoemiPOS" && role == UserRoles.NoemiSuperAdmin.ToString())
+            if (business.Name.Value is not "NoemiPOS" && role == UserRoles.NoemiSuperAdmin.ToString())
                 return Result.Failure<Guid>(UserErrors.InvalidRole);
 
             if (Enum.TryParse<UserRoles>(role, out var validRole))

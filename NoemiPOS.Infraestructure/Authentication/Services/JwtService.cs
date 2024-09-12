@@ -45,10 +45,17 @@ public class JwtService : IJwtService
             expires: DateTime.UtcNow.AddMinutes(15),
             signingCredentials: creds);
 
-        var timeZone = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
-        var expirationLocal = TimeZoneInfo.ConvertTimeFromUtc(securityToken.ValidTo, timeZone);
+        return new JwtResponse(
+            new JwtSecurityTokenHandler().WriteToken(securityToken),
+            GetExpirtarionLocalDateTimeToken(securityToken.ValidTo));
+    }
 
-        return new JwtResponse(new JwtSecurityTokenHandler().WriteToken(securityToken), expirationLocal);
+    private DateTime GetExpirtarionLocalDateTimeToken(DateTime tokenExpirationUtc)
+    {
+        var timeZone = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
+        TimeSpan baseOffset = timeZone.BaseUtcOffset;
+
+        return tokenExpirationUtc + baseOffset;
     }
 }
 
