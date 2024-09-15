@@ -6,7 +6,7 @@ using NoemiPOS.Application.Authentication.LoginUser;
 namespace NoemiPOS.Api.Controllers.Authentication;
 
 [ApiController]
-[Route("api/auth")]
+[Route("api/identity")]
 public class AuthController : ControllerBase
 {
     private readonly ISender _sender;

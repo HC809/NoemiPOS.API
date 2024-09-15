@@ -28,7 +28,12 @@ internal sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand
 
         var tokenResponse = _jwtService.GenerateToken(user.Id, user.Username, user.BusinessId, user.Roles);
 
-        var response = new LoginUserResponse(user.Email, $"{user.FirstName.Value} {user.LastName.Value}", tokenResponse.token, tokenResponse.expiresIn);
+        var response = new LoginUserResponse(
+            user.Email,
+            $"{user.FirstName.Value} {user.LastName.Value}",
+            user.Roles.FirstOrDefault() ?? "",
+            tokenResponse.token,
+            tokenResponse.expiresIn);
 
         return response;
     }
