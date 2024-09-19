@@ -31,7 +31,7 @@ internal sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand
         var response = new LoginUserResponse(
             user.Email,
             $"{user.FirstName.Value} {user.LastName.Value}",
-            user.Roles.FirstOrDefault() ?? "",
+            user.Roles.FirstOrDefault() ?? string.Empty,
             tokenResponse.token,
             tokenResponse.expiresIn);
 
