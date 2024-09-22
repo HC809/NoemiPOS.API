@@ -31,13 +31,15 @@ internal sealed class GetBusinessesQueryHandler : IQueryHandler<GetBusinessesQue
                 b.web_site_url AS WebSiteUrl,
                 b.type AS Type,
                 b.management_note AS ManagementNote,
+                t.full_name as TenantName,
                 b.address_country AS country,
                 b.address_state AS state,
                 b.address_city AS city,
                 b.address_street AS street,
                 b.address_postal_code AS postalCode
             FROM
-                businesses AS b;
+                businesses AS b
+            join tenants t on b.tenant_id = t.id;
             """;
 
         IEnumerable<BusinessResponse> businesses = await connection.QueryAsync<BusinessResponse, AddressResponse, BusinessResponse>(sql, (business, address) =>

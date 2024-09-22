@@ -42,7 +42,7 @@ public class JwtService : IJwtService
             _jwtSettings.Issuer,
             _jwtSettings.Audience,
             claims,
-            expires: DateTime.UtcNow.AddMinutes(15),
+            expires: DateTime.UtcNow.AddMinutes(60),
             signingCredentials: creds);
 
         return new JwtResponse(
