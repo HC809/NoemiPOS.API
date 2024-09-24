@@ -18,12 +18,12 @@ internal sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand
 
     public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByEmailOrUsernameAsync(request.username);
+        var user = await _userRepository.GetByEmailOrUsernameAsync(request.Username);
 
         if (user == null)
             return Result.Failure<LoginUserResponse>(UserErrors.InvalidCredentials);
 
-        if (!_passwordService.VerifyPassword(request.password, user.HashPassword))
+        if (!_passwordService.VerifyPassword(request.Password, user.HashPassword))
             return Result.Failure<LoginUserResponse>(UserErrors.InvalidCredentials);
 
         var tokenResponse = _jwtService.GenerateToken(user.Id, user.Username, user.BusinessId, user.Roles);
@@ -32,8 +32,9 @@ internal sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand
             user.Email,
             $"{user.FirstName.Value} {user.LastName.Value}",
             user.Roles.FirstOrDefault() ?? string.Empty,
-            tokenResponse.token,
-            tokenResponse.expiresIn);
+            tokenResponse.Token,
+            tokenResponse.RefreshToken,
+            tokenResponse.ExpiresIn);
 
         return response;
     }

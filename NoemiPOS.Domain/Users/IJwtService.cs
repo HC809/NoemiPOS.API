@@ -5,4 +5,4 @@ public interface IJwtService
 }
 
 
-public record JwtResponse(string token, DateTime expiresIn);
+public record JwtResponse(string Token, string RefreshToken, DateTime ExpiresIn);
