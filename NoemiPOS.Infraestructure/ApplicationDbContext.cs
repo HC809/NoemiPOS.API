@@ -26,7 +26,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
-            if (typeof(BaseTenantEntity).IsAssignableFrom(entityType.ClrType) && entityType.ClrType != typeof(User))
+            if (typeof(BaseTenantEntity).IsAssignableFrom(entityType.ClrType) && _currentUserService.IsBusinessUser)
             {
                 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(
                     CreateBusinessFilter(entityType.ClrType));

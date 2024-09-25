@@ -15,12 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NoemiPOS.Application\NoemiPOS.Application.csproj" />
-    <ProjectReference Include="..\NoemiPOS.Domain\NoemiPOS.Domain.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\NoemiPOS.Application\NoemiPOS.Application.csproj" />
   </ItemGroup>
 
 </Project>
