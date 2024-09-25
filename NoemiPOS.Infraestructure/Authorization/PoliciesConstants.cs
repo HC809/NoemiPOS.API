@@ -3,5 +3,6 @@ public static class PoliciesConstants
 {
     public const string NoemiSuperAdminPolicy = "NoemiSuperAdminPolicy";
     public const string BusinessAdminPolicy = "BusinessAdminPolicy";
+    public const string NoemiSuperAdminOrBusinessAdminPolicy = "NoemiSuperAdminOrBusinessAdminPolicy";
     public const string BusinessPOSPolicy = "BusinessPOSPolicy";
 }

@@ -47,6 +47,8 @@ public static class DIContainer
         {
             options.AddPolicy(PoliciesConstants.NoemiSuperAdminPolicy, policy => policy.RequireRole(UserRoles.NoemiSuperAdmin.ToString()));
             options.AddPolicy(PoliciesConstants.BusinessAdminPolicy, policy => policy.RequireRole(UserRoles.BusinessAdmin.ToString()));
+            options.AddPolicy(PoliciesConstants.NoemiSuperAdminOrBusinessAdminPolicy, policy =>
+                policy.RequireRole(UserRoles.NoemiSuperAdmin.ToString(), UserRoles.BusinessAdmin.ToString()));
         });
     }
 
