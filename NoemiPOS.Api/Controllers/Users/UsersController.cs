@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NoemiPOS.Application.Users.GetBusinessUsers;
 using NoemiPOS.Application.Users.GetUsers;
 using NoemiPOS.Application.Users.RegisterBusinessUser;
 using NoemiPOS.Application.Users.RegisterUser;
@@ -18,6 +19,16 @@ public class UsersController : ControllerBase
     public UsersController(ISender sender)
     {
         _sender = sender;
+    }
+
+    [HttpGet("business-users")]
+    [Authorize(Policy = PoliciesConstants.BusinessAdminPolicy)]
+    public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
+    {
+        var query = new GetBusinessUsersQuery();
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess ? Ok(result.Value) : NotFound();
     }
 
     [HttpPost("register-business-user")]
@@ -42,9 +53,9 @@ public class UsersController : ControllerBase
     }
 
     #region Noemi Super Admin Endpoints
-    [HttpGet("all-system-users")]
+    [HttpGet("system-users")]
     [Authorize(Policy = PoliciesConstants.NoemiSuperAdminPolicy)]
-    public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
     {
         var query = new GetUsersQuery();
         var result = await _sender.Send(query, cancellationToken);

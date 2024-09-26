@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NoemiPOS.Application.Abstractions.Data;
+using NoemiPOS.Application.Abstractions.Multitenancy;
 using NoemiPOS.Domain.Abstractions;
 using NoemiPOS.Domain.Businesses;
 using NoemiPOS.Domain.Tenants;

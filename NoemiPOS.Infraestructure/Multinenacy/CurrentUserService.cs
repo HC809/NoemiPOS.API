@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.IdentityModel.Tokens.Jwt;
+using NoemiPOS.Application.Abstractions.Multitenancy;
 
 namespace NoemiPOS.Infraestructure.Multinenacy;
 internal sealed class CurrentUserService : ICurrentUserService

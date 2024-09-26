@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NoemiPOS.Application.Abstractions.Multitenancy;
 using NoemiPOS.Application.Exceptions;
 using NoemiPOS.Domain.Abstractions;
-using NoemiPOS.Domain.Users;
-using NoemiPOS.Infraestructure.Multinenacy;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;

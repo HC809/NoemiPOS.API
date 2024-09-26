@@ -44,6 +44,9 @@ public class JwtService : IJwtService
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
 
+        var isBusinessUser = roles.Contains(UserRoles.BusinessAdmin.ToString()) || roles.Contains(UserRoles.BusinessPOS.ToString());
+        claims.Add(new Claim("IsBusinessUser", isBusinessUser.ToString()));
+
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

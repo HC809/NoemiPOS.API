@@ -2,21 +2,24 @@
 using NoemiPOS.Application.Abstractions.Data;
 using NoemiPOS.Application.Abstractions.Messaging;
 using NoemiPOS.Application.Abstractions.Multitenancy;
+using NoemiPOS.Application.Users.GetUsers;
 using NoemiPOS.Domain.Abstractions;
+using System.Text;
 
-namespace NoemiPOS.Application.Users.GetUsers;
-internal sealed class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, IEnumerable<UserResponse>>
+namespace NoemiPOS.Application.Users.GetBusinessUsers;
+
+internal sealed class GetBusinessUsersQueryHandler : IQueryHandler<GetBusinessUsersQuery, IEnumerable<UserResponse>>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
     private readonly ICurrentUserService _currentUserService;
 
-    public GetUsersQueryHandler(ISqlConnectionFactory sqlConnectionFactory, ICurrentUserService currentUserService)
+    public GetBusinessUsersQueryHandler(ISqlConnectionFactory sqlConnectionFactory, ICurrentUserService currentUserService)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
         _currentUserService = currentUserService;
     }
 
-    public async Task<Result<IEnumerable<UserResponse>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<UserResponse>>> Handle(GetBusinessUsersQuery request, CancellationToken cancellationToken)
     {
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -34,10 +37,18 @@ internal sealed class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, IEnume
             	b.id as businessId,
             	b."name" as businessName
             from users u
-            join businesses b on b.id = u.business_id;
+            join businesses b on b.id = u.business_id
+            where u.business_id = @BusinessId;
             """;
 
-        IEnumerable<UserResponse> users = await connection.QueryAsync<UserResponse>(sql);
+        var parameters = new DynamicParameters();
+
+        if (_currentUserService.IsBusinessUser)
+        {
+            parameters.Add("@BusinessId", _currentUserService.BusinessId);
+        }
+
+        IEnumerable<UserResponse> users = await connection.QueryAsync<UserResponse>(sql, parameters);
 
         return Result.Success(users);
     }
