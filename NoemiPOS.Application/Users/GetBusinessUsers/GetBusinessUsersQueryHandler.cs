@@ -2,9 +2,7 @@
 using NoemiPOS.Application.Abstractions.Data;
 using NoemiPOS.Application.Abstractions.Messaging;
 using NoemiPOS.Application.Abstractions.Multitenancy;
-using NoemiPOS.Application.Users.GetUsers;
 using NoemiPOS.Domain.Abstractions;
-using System.Text;
 
 namespace NoemiPOS.Application.Users.GetBusinessUsers;
 
@@ -26,18 +24,15 @@ internal sealed class GetBusinessUsersQueryHandler : IQueryHandler<GetBusinessUs
         const string sql = """
             select 
             	u.id,
-            	u.business_id, 
-            	u.first_name,
-            	u.last_name,
+            	u.first_name as FirstName,
+            	u.last_name as LastName,
             	u.email,
             	u.username,
             	u.dni, 
             	u.phone, 
             	array_to_string(u.roles, ',') as roles, 
-            	b.id as businessId,
-            	b."name" as businessName
+            	u.business_id as businessId
             from users u
-            join businesses b on b.id = u.business_id
             where u.business_id = @BusinessId;
             """;
 

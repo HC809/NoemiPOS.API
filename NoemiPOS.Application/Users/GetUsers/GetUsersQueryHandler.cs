@@ -23,9 +23,8 @@ internal sealed class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, IEnume
         const string sql = """
             select 
             	u.id,
-            	u.business_id, 
-            	u.first_name,
-            	u.last_name,
+            	u.first_name as FirstName,
+            	u.last_name as LastName,
             	u.email,
             	u.username,
             	u.dni, 

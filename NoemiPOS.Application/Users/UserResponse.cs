@@ -8,7 +8,7 @@ public sealed class UserResponse
     public string Email { get; init; } = string.Empty;
     public string Username { get; init; } = string.Empty;
     public string Dni { get; init; } = string.Empty;
-    public string PhoneNumber { get; init; } = string.Empty;
+    public string Phone { get; init; } = string.Empty;
     public string Roles { get; init; } = string.Empty;
     public string BusinessName { get; set; } = string.Empty;
 
