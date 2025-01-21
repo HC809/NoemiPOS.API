@@ -54,7 +54,7 @@ public class JwtService : IJwtService
             _jwtSettings.Issuer,
             _jwtSettings.Audience,
             claims,
-            expires: DateTime.UtcNow.AddSeconds(15),
+            expires: DateTime.UtcNow.AddHours(3),
             signingCredentials: creds);
 
         return securityToken;
